@@ -92,8 +92,10 @@ Uma ferramenta onde o usuário insere o CNPJ de um cliente e recebe uma análise
   - Detalhes dos critérios que impactaram o score.
 
 ## Stack para Implementação Rápida
-- Frontend simples (HTML + JS, React ou Streamlit).
-- API Publica. Consultar documentação em https://docs.cnpj.ws/
+- Frontend (HTML5 + JS ou React)
+- Backend NodeJS
+- Banco de dados: SQLite
+- API Publica. Consultar documentação em https://docs.cnpj.ws/referencia-de-api/api-publica/consultando-cnpj
 
 
 ```
@@ -104,7 +106,7 @@ Certifique-se de que os prompts gerados solicitem que os resultados sejam passad
 
 Leve em consideração que os prompts serão utilizados por agents de inteligência articial que irão replicar o trabalhado do PO, SA, DEV, QA, etc. Os 
 
-No inicio do processo, crie um arquivo `logs\worklog.md` onde você deve atualizar com as seguintes informações:
+Ao inicio de CADA ETAPA DO PROCESSO, crie ou atualize o  arquivo `logs\worklog.md` onde você deve atualizar com as seguintes informações:
 
 - YYYY-MM-DD-HH-MM - Iniciando atividade [descrever a atividades iniciada]
   - Descrever as atividades principais a serem executadas
