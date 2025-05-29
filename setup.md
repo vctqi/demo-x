@@ -187,3 +187,12 @@ A saída deve ser o conteúdo para 7 arquivos Markdown separados. Cada arquivo c
 **Nome do Arquivo:** `prompts\step-4_prompt_dev.md`
 **Conteúdo:**
 [Texto do prompt gerado para o Developer (Dev) aqui, baseado nas instruções da seção "4. Prompt para Developer (Dev)"]
+
+**Execução dos prompts:**
+
+Execute os prompts de forma sequencial:
+
+1) `prompt\step-1_prompt_po.md`
+2) `prompt\step-2_prompt_sa.md`
+3) `prompt\step-3_prompt_tl.md`
+4) `prompt\step-3_prompt_dev.md`
