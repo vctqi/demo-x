@@ -1,0 +1,6 @@
+{"level":"info","message":"Initializing database at ./database.sqlite","service":"analisador-risco-cnpj","timestamp":"2025-05-30 13:42:05"}
+{"level":"info","message":"Connected to the SQLite database","service":"analisador-risco-cnpj","timestamp":"2025-05-30 13:42:05"}
+{"level":"info","message":"Consultas table created or already exists","service":"analisador-risco-cnpj","timestamp":"2025-05-30 13:42:05"}
+{"level":"info","message":"Resultados_risco table created or already exists","service":"analisador-risco-cnpj","timestamp":"2025-05-30 13:42:06"}
+{"level":"info","message":"Database initialized successfully","service":"analisador-risco-cnpj","timestamp":"2025-05-30 13:42:06"}
+{"level":"info","message":"Server running on port 3000","service":"analisador-risco-cnpj","timestamp":"2025-05-30 13:42:06"}
