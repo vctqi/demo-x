@@ -81,7 +81,7 @@ fi
 
 # Install backend dependencies
 step "Installing backend dependencies..."
-cd codigo/backend || error "Backend directory not found"
+cd ../codigo/backend || error "Backend directory not found"
 npm install || error "Failed to install backend dependencies"
 success "Backend dependencies installed successfully"
 
