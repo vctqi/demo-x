@@ -172,9 +172,9 @@ Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as se
    *   **Entregáveis:**
        *   Código do sistema na pasta  `codigo`
        *   O código deve ser FUNCIONAL e não somente um mockup.
-       *   Criar um arquivo start.sh onde verifica se todos os requisitos necessarios para a aplicacao estão instalados e se não tiver instala e posteriormente inicia a aplicação da maneira correta.
+       *   Criar um arquivo start.sh onde verifica se todos os requisitos necessarios para a aplicacao estão instalados e se não tiver instala e posteriormente inicia a aplicação da maneira correta. Atenção para os paths dos arquivos.
        *   Criar um arquivo stop.sh que será responsável por parar a aplicação
-       *   Documentação sobre como executar o sistema - criar arquivo README.MD como instruções detalhadas.
+       *   Documentação sobre como executar o sistema - criar arquivo README.MD como instruções detalhadas. Atenção para os paths dos arquivos.
 
 **Formato da Saída Esperada (o que o prompt principal irá gerar):**
 A saída deve ser o conteúdo para 7 arquivos Markdown separados. Cada arquivo conterá o prompt para um papel específico. Gere o conteúdo para cada arquivo da seguinte forma:
