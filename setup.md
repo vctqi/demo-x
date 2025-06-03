@@ -167,6 +167,8 @@ Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as se
         *   Indicação do artefato esperado: "O código-fonte da funcionalidade/componente implementado, com testes unitários passando, devidamente comentado (quando necessário), e pronto para ser submetido a um Pull Request/Merge Request para revisão e integração. Após aprovação e merge, notifique o QA Analyst."
    *   **Entregáveis:**
        *   Código do sistema na pasta  `codigo`
+       *   Criar um arquivo start.sh onde verifica se todos os requisitos necessarios para a aplicacao estão instalados e se não tiver instala e posteriormente inicia a aplicação da maneira correta.
+       *   Criar um arquivo stop.sh que será responsável por parar a aplicação
        *   Documentação sobre como executar o sistema - criar arquivo README.MD como instruções detalhadas.
 
 **Formato da Saída Esperada (o que o prompt principal irá gerar):**
