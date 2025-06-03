@@ -72,12 +72,12 @@ class CnpjApiService {
       companyName: apiResponse.razao_social || '',
       tradeName: apiResponse.nome_fantasia || '',
       openingDate: apiResponse.data_inicio_atividade || null,
-      status: apiResponse.situacao_cadastral?.descricao || 'Desconhecida',
-      cnae: apiResponse.cnae_fiscal?.codigo || '',
-      cnaeDescription: apiResponse.cnae_fiscal?.descricao || '',
-      size: apiResponse.porte?.descricao || '',
-      city: apiResponse.estabelecimento?.cidade?.nome || '',
-      state: apiResponse.estabelecimento?.estado?.sigla || '',
+      status: (apiResponse.situacao_cadastral && apiResponse.situacao_cadastral.descricao) || 'Desconhecida',
+      cnae: (apiResponse.cnae_fiscal && apiResponse.cnae_fiscal.codigo) || '',
+      cnaeDescription: (apiResponse.cnae_fiscal && apiResponse.cnae_fiscal.descricao) || '',
+      size: (apiResponse.porte && apiResponse.porte.descricao) || '',
+      city: (apiResponse.estabelecimento && apiResponse.estabelecimento.cidade && apiResponse.estabelecimento.cidade.nome) || '',
+      state: (apiResponse.estabelecimento && apiResponse.estabelecimento.estado && apiResponse.estabelecimento.estado.sigla) || '',
       lastConsultation: new Date(),
     };
   }

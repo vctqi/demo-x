@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisador de Risco de Cliente PJ via CNPJ</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #1976d2;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+        .form-section {
+            flex: 2;
+            min-width: 400px;
+        }
+        h2 {
+            color: #1976d2;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        .risk-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: white;
+        }
+        .risk-low {
+            background-color: #4caf50;
+        }
+        .risk-medium {
+            background-color: #ff9800;
+        }
+        .risk-high {
+            background-color: #f44336;
+        }
+        .company-details {
+            display: none;
+        }
+        .risk-analysis {
+            display: none;
+        }
+        .history-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            cursor: pointer;
+        }
+        .history-item:hover {
+            background-color: #f9f9f9;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .error {
+            color: #f44336;
+            margin-top: 5px;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="icon">📊</div>
+        <h1>Analisador de Risco de Cliente PJ via CNPJ</h1>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>Consulta de CNPJ</h2>
+            <form id="cnpj-form">
+                <div class="form-group">
+                    <label for="cnpj">CNPJ da Empresa:</label>
+                    <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" required>
+                    <div class="error" id="cnpj-error"></div>
+                </div>
+                <button type="submit">Analisar Risco</button>
+            </form>
+
+            <div class="loading" id="loading">
+                <p>Carregando dados...</p>
+            </div>
+
+            <div class="company-details" id="company-details">
+                <h2>Dados da Empresa</h2>
+                <h3 id="company-name"></h3>
+                <p id="company-trade-name"></p>
+                <p>CNPJ: <span id="company-cnpj"></span></p>
+                <p>Situação: <span id="company-status"></span></p>
+                <p>Data de Abertura: <span id="company-opening-date"></span></p>
+                <p>Tempo de Operação: <span id="company-age"></span></p>
+                <p>Atividade Principal: <span id="company-activity"></span></p>
+                <p>Localização: <span id="company-location"></span></p>
+            </div>
+
+            <div class="risk-analysis" id="risk-analysis">
+                <h2>Análise de Risco</h2>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3>Classificação de Risco</h3>
+                    <div id="risk-badge" class="risk-badge"></div>
+                    <p>Score: <span id="risk-score"></span> pontos</p>
+                </div>
+
+                <h3>Fatores que impactaram a análise:</h3>
+                <ul id="risk-factors"></ul>
+
+                <p style="font-size: 0.8rem; color: #666; margin-top: 20px;">
+                    <em>Esta é uma análise preliminar baseada em dados públicos e não substitui uma avaliação completa de risco.</em>
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Histórico de Consultas</h2>
+            <div id="history-list">
+                <p>Nenhuma consulta realizada nesta sessão.</p>
+            </div>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 20px;">
+                O histórico é mantido apenas durante esta sessão.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Analisador de Risco de Cliente PJ</p>
+    </footer>
+
+    <script>
+        // Simulação da API e lógica da aplicação
+        document.addEventListener('DOMContentLoaded', function() {
+            const cnpjForm = document.getElementById('cnpj-form');
+            const cnpjInput = document.getElementById('cnpj');
+            const cnpjError = document.getElementById('cnpj-error');
+            const loading = document.getElementById('loading');
+            const companyDetails = document.getElementById('company-details');
+            const riskAnalysis = document.getElementById('risk-analysis');
+            const historyList = document.getElementById('history-list');
+            
+            // Histórico de consultas
+            let consultationHistory = [];
+            
+            // Formatar CNPJ enquanto o usuário digita
+            cnpjInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length <= 2) {
+                    value = value;
+                } else if (value.length <= 5) {
+                    value = value.substring(0, 2) + '.' + value.substring(2);
+                } else if (value.length <= 8) {
+                    value = value.substring(0, 2) + '.' + value.substring(2, 5) + '.' + value.substring(5);
+                } else if (value.length <= 12) {
+                    value = value.substring(0, 2) + '.' + value.substring(2, 5) + '.' + 
+                            value.substring(5, 8) + '/' + value.substring(8);
+                } else {
+                    value = value.substring(0, 2) + '.' + value.substring(2, 5) + '.' + 
+                            value.substring(5, 8) + '/' + value.substring(8, 12) + '-' + value.substring(12, 14);
+                }
+                e.target.value = value;
+            });
+            
+            // Validar CNPJ
+            function validateCnpj(cnpj) {
+                cnpj = cnpj.replace(/[^\d]/g, '');
+                
+                if (cnpj.length !== 14) {
+                    return false;
+                }
+                
+                // Verificar se todos os dígitos são iguais
+                if (/^(\d)\1+$/.test(cnpj)) {
+                    return false;
+                }
+                
+                // Validação dos dígitos verificadores
+                let size = cnpj.length - 2;
+                let numbers = cnpj.substring(0, size);
+                const digits = cnpj.substring(size);
+                let sum = 0;
+                let pos = size - 7;
+                
+                // Primeiro dígito verificador
+                for (let i = size; i >= 1; i--) {
+                    sum += parseInt(numbers.charAt(size - i)) * pos--;
+                    if (pos < 2) pos = 9;
+                }
+                
+                let result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
+                if (result !== parseInt(digits.charAt(0), 10)) {
+                    return false;
+                }
+                
+                // Segundo dígito verificador
+                size++;
+                numbers = cnpj.substring(0, size);
+                sum = 0;
+                pos = size - 7;
+                
+                for (let i = size; i >= 1; i--) {
+                    sum += parseInt(numbers.charAt(size - i)) * pos--;
+                    if (pos < 2) pos = 9;
+                }
+                
+                result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
+                if (result !== parseInt(digits.charAt(1), 10)) {
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Calcular idade da empresa
+            function calculateCompanyAge(openingDate) {
+                const start = new Date(openingDate);
+                const now = new Date();
+                const ageInYears = (now - start) / (1000 * 60 * 60 * 24 * 365.25);
+                
+                if (ageInYears < 1) {
+                    const ageInMonths = Math.floor(ageInYears * 12);
+                    return `${ageInMonths} ${ageInMonths === 1 ? 'mês' : 'meses'}`;
+                }
+                
+                const years = Math.floor(ageInYears);
+                return `${years} ${years === 1 ? 'ano' : 'anos'}`;
+            }
+            
+            // Formatar data
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('pt-BR');
+            }
+            
+            // Simulação da API de CNPJ
+            function fetchCompanyData(cnpj) {
+                // Simular diferentes empresas com base no CNPJ
+                const lastDigit = parseInt(cnpj.replace(/[^\d]/g, '').slice(-1));
+                
+                // Dados simulados
+                const companies = [
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Tech Solutions Ltda',
+                        tradeName: 'TechSol',
+                        openingDate: '2010-05-15',
+                        status: 'Ativa',
+                        cnae: '6201501',
+                        cnaeDescription: 'Desenvolvimento de software',
+                        size: 'Médio Porte',
+                        city: 'São Paulo',
+                        state: 'SP'
+                    },
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Construções & Empreendimentos S.A.',
+                        tradeName: 'ConstruBuild',
+                        openingDate: '2022-10-03',
+                        status: 'Ativa',
+                        cnae: '4120400',
+                        cnaeDescription: 'Construção de edifícios',
+                        size: 'Pequeno Porte',
+                        city: 'Rio de Janeiro',
+                        state: 'RJ'
+                    },
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Crédito Fácil Factoring Ltda',
+                        tradeName: 'CréditoJá',
+                        openingDate: '2021-01-20',
+                        status: 'Ativa',
+                        cnae: '6499999',
+                        cnaeDescription: 'Factoring',
+                        size: 'Pequeno Porte',
+                        city: 'Belo Horizonte',
+                        state: 'MG'
+                    },
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Hospital e Maternidade Bem Viver',
+                        tradeName: 'Hospital Bem Viver',
+                        openingDate: '2005-07-12',
+                        status: 'Ativa',
+                        cnae: '8610101',
+                        cnaeDescription: 'Atividades de atendimento hospitalar',
+                        size: 'Grande Porte',
+                        city: 'Brasília',
+                        state: 'DF'
+                    },
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Comércio de Informática DellByte Ltda',
+                        tradeName: 'DellByte',
+                        openingDate: '2018-03-25',
+                        status: 'Ativa',
+                        cnae: '4751201',
+                        cnaeDescription: 'Comércio varejista de produtos de informática',
+                        size: 'Microempresa',
+                        city: 'Porto Alegre',
+                        state: 'RS'
+                    },
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Cassino Royal Entretenimentos Ltda',
+                        tradeName: 'Cassino Royal',
+                        openingDate: '2015-11-30',
+                        status: 'Suspensa',
+                        cnae: '9200302',
+                        cnaeDescription: 'Cassinos',
+                        size: 'Médio Porte',
+                        city: 'Manaus',
+                        state: 'AM'
+                    },
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Educação Continuada S.A.',
+                        tradeName: 'EduCont',
+                        openingDate: '2008-09-10',
+                        status: 'Ativa',
+                        cnae: '8599604',
+                        cnaeDescription: 'Educação',
+                        size: 'Grande Porte',
+                        city: 'Fortaleza',
+                        state: 'CE'
+                    },
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Papelaria Moderna Ltda',
+                        tradeName: 'PapelModern',
+                        openingDate: '2022-01-05',
+                        status: 'Ativa',
+                        cnae: '4761003',
+                        cnaeDescription: 'Comércio varejista de artigos de papelaria',
+                        size: 'Microempresa',
+                        city: 'Recife',
+                        state: 'PE'
+                    },
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Construtora Falência Total Ltda',
+                        tradeName: 'Falência Total',
+                        openingDate: '2023-02-15',
+                        status: 'Inapta',
+                        cnae: '4120400',
+                        cnaeDescription: 'Construção de edifícios',
+                        size: 'Pequeno Porte',
+                        city: 'Salvador',
+                        state: 'BA'
+                    },
+                    {
+                        cnpj: cnpj,
+                        companyName: 'Sociedade de Crédito WinWin S.A.',
+                        tradeName: 'WinWin Crédito',
+                        openingDate: '2020-05-20',
+                        status: 'Ativa',
+                        cnae: '6434400',
+                        cnaeDescription: 'Sociedades de crédito',
+                        size: 'Médio Porte',
+                        city: 'Curitiba',
+                        state: 'PR'
+                    }
+                ];
+                
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        // Selecionar uma empresa com base no último dígito do CNPJ
+                        const company = companies[lastDigit % companies.length];
+                        resolve(company);
+                    }, 1500); // Simular o delay da API
+                });
+            }
+            
+            // Simulação da análise de risco
+            function analyzeRisk(companyData) {
+                let score = 0;
+                const factors = [];
+                
+                // 1. Verificar situação cadastral
+                if (companyData.status.toLowerCase() === 'ativa') {
+                    score += 10;
+                    factors.push({
+                        factor: 'Situação cadastral ativa',
+                        impact: 10,
+                        description: 'Empresa com situação cadastral regular'
+                    });
+                } else {
+                    score -= 20;
+                    factors.push({
+                        factor: 'Situação cadastral irregular',
+                        impact: -20,
+                        description: `Situação cadastral: ${companyData.status}`
+                    });
+                }
+                
+                // 2. Verificar idade da empresa
+                const openingDate = new Date(companyData.openingDate);
+                const now = new Date();
+                const ageInYears = (now - openingDate) / (1000 * 60 * 60 * 24 * 365.25);
+                
+                if (ageInYears >= 3) {
+                    score += 10;
+                    factors.push({
+                        factor: 'Tempo de operação',
+                        impact: 10,
+                        description: 'Empresa com mais de 3 anos de operação'
+                    });
+                } else if (ageInYears < 0.5) {
+                    score -= 10;
+                    factors.push({
+                        factor: 'Empresa recente',
+                        impact: -10,
+                        description: 'Empresa aberta há menos de 6 meses'
+                    });
+                }
+                
+                // 3. Verificar CNAE de risco
+                const highRiskCnaes = ['6499999', '6434400', '4120400', '9200301', '9200302', '9200399'];
+                const lowRiskCnaes = ['8599604', '6201501', '8610101', '4751201', '4761003'];
+                
+                if (highRiskCnaes.includes(companyData.cnae)) {
+                    score -= 10;
+                    factors.push({
+                        factor: 'CNAE de alto risco',
+                        impact: -10,
+                        description: `CNAE ${companyData.cnae} (${companyData.cnaeDescription}) é considerado de alto risco`
+                    });
+                } else if (lowRiskCnaes.includes(companyData.cnae)) {
+                    score += 10;
+                    factors.push({
+                        factor: 'CNAE de baixo risco',
+                        impact: 10,
+                        description: `CNAE ${companyData.cnae} (${companyData.cnaeDescription}) é considerado de baixo risco`
+                    });
+                }
+                
+                // Determinar nível de risco
+                let riskLevel;
+                if (score >= 20) {
+                    riskLevel = 'Baixo';
+                } else if (score >= 0) {
+                    riskLevel = 'Médio';
+                } else {
+                    riskLevel = 'Alto';
+                }
+                
+                return {
+                    score,
+                    riskLevel,
+                    factors
+                };
+            }
+            
+            // Exibir dados da empresa
+            function displayCompanyData(company) {
+                document.getElementById('company-name').textContent = company.companyName;
+                document.getElementById('company-trade-name').textContent = company.tradeName || '';
+                document.getElementById('company-cnpj').textContent = company.cnpj;
+                document.getElementById('company-status').textContent = company.status;
+                document.getElementById('company-opening-date').textContent = formatDate(company.openingDate);
+                document.getElementById('company-age').textContent = calculateCompanyAge(company.openingDate);
+                document.getElementById('company-activity').textContent = `${company.cnae} - ${company.cnaeDescription}`;
+                document.getElementById('company-location').textContent = `${company.city} - ${company.state}`;
+                
+                companyDetails.style.display = 'block';
+            }
+            
+            // Exibir análise de risco
+            function displayRiskAnalysis(risk) {
+                const riskBadge = document.getElementById('risk-badge');
+                riskBadge.textContent = risk.riskLevel;
+                riskBadge.className = 'risk-badge';
+                
+                if (risk.riskLevel === 'Baixo') {
+                    riskBadge.classList.add('risk-low');
+                } else if (risk.riskLevel === 'Médio') {
+                    riskBadge.classList.add('risk-medium');
+                } else {
+                    riskBadge.classList.add('risk-high');
+                }
+                
+                document.getElementById('risk-score').textContent = risk.score;
+                
+                const factorsList = document.getElementById('risk-factors');
+                factorsList.innerHTML = '';
+                
+                risk.factors.forEach(factor => {
+                    const item = document.createElement('li');
+                    item.innerHTML = `<strong>${factor.factor}</strong> (${factor.impact > 0 ? '+' : ''}${factor.impact}): ${factor.description}`;
+                    factorsList.appendChild(item);
+                });
+                
+                riskAnalysis.style.display = 'block';
+            }
+            
+            // Atualizar histórico
+            function updateHistory(cnpj, companyName, riskLevel) {
+                // Adicionar ao início do histórico
+                consultationHistory.unshift({
+                    cnpj,
+                    companyName,
+                    date: new Date(),
+                    riskLevel
+                });
+                
+                // Limitar a 10 itens
+                if (consultationHistory.length > 10) {
+                    consultationHistory.pop();
+                }
+                
+                // Atualizar a exibição
+                displayHistory();
+            }
+            
+            // Exibir histórico
+            function displayHistory() {
+                historyList.innerHTML = '';
+                
+                if (consultationHistory.length === 0) {
+                    historyList.innerHTML = '<p>Nenhuma consulta realizada nesta sessão.</p>';
+                    return;
+                }
+                
+                consultationHistory.forEach((item, index) => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.innerHTML = `
+                        <strong>${item.companyName}</strong><br>
+                        CNPJ: ${item.cnpj}<br>
+                        Data: ${item.date.toLocaleTimeString('pt-BR')}<br>
+                        Risco: <span class="risk-badge risk-${item.riskLevel.toLowerCase()}" style="font-size: 0.8rem; padding: 2px 6px;">${item.riskLevel}</span>
+                    `;
+                    
+                    // Permitir clicar para recarregar
+                    historyItem.addEventListener('click', () => {
+                        cnpjInput.value = item.cnpj;
+                        cnpjForm.dispatchEvent(new Event('submit'));
+                    });
+                    
+                    historyList.appendChild(historyItem);
+                });
+            }
+            
+            // Handler do formulário
+            cnpjForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const cnpj = cnpjInput.value;
+                
+                // Validar CNPJ
+                if (!validateCnpj(cnpj)) {
+                    cnpjError.textContent = 'CNPJ inválido. Verifique os dígitos informados.';
+                    return;
+                }
+                
+                cnpjError.textContent = '';
+                loading.style.display = 'block';
+                companyDetails.style.display = 'none';
+                riskAnalysis.style.display = 'none';
+                
+                try {
+                    // Consultar dados da empresa
+                    const companyData = await fetchCompanyData(cnpj);
+                    
+                    // Analisar risco
+                    const riskAnalysisResult = analyzeRisk(companyData);
+                    
+                    // Exibir dados
+                    displayCompanyData(companyData);
+                    displayRiskAnalysis(riskAnalysisResult);
+                    
+                    // Atualizar histórico
+                    updateHistory(cnpj, companyData.companyName, riskAnalysisResult.riskLevel);
+                } catch (error) {
+                    cnpjError.textContent = 'Erro ao consultar CNPJ. Tente novamente.';
+                    console.error('Erro:', error);
+                } finally {
+                    loading.style.display = 'none';
+                }
+            });
+            
+            // Inicializar histórico
+            displayHistory();
+        });
+    </script>
+</body>
+</html>
