@@ -95,7 +95,7 @@ Uma ferramenta onde o usuário insere o CNPJ de um cliente e recebe uma análise
 - Frontend (HTML5 + JS ou React)
 - Backend NodeJS
 - Banco de dados: SQLite
-- API Publica. Consultar documentação em https://docs.cnpj.ws/referencia-de-api/api-publica/consultando-cnpj
+- Usar a API Publica de consulta do CNPJ. Consultar documentação em https://docs.cnpj.ws/referencia-de-api/api-publica/consultando-cnpj
 
 
 ```
@@ -140,6 +140,8 @@ Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as se
             *   A especificação da infraestrutura necessária (servidores, cloud, etc.).
             *   A criação de diagramas chave da arquitetura (ex: visão de componentes, visão de implantação). Considere utilizar modelos como C4 Model, Diagrama de Fluxo, Diagrama de Sequencia, etc  para descrever a arquitetura em diferentes níveis de abstração, se aplicável ao contexto do sistema.
         *   Indicação do artefato esperado: "Um Documento de Arquitetura Técnica detalhado, incluindo diagramas chave (e possivelmente modelos como C4), pronto para ser compartilhado com o Team Leader e a equipe de Desenvolvimento."
+   *  **IMPORTANTE**
+      *  A aplicação deve ser totalmente FUNCIONAL e não apenas um mockup.
    *   **Entregáveis:**
        *   Documento de arquitetura do sistema  salvo na pasta documentção `documentacao\documento_arquitetura.md`
 
@@ -149,8 +151,10 @@ Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as se
         *   Referência à ideia do sistema: "[Ideia do Sistema]".
         *   **Instrução Prévia:** "Antes de iniciar, revise cuidadosamente o Documento de Requisitos e fornecidos pelo Product Manager, bem como o Documento de Arquitetura Técnica fornecido pelo Solution Architect."
         *   Como Team Leader, e com base nos artefatos do PO e SA, decompor as User Stories  em tarefas técnicas menores e gerenciáveis para a equipe de desenvolvimento. As tarefas devem ter suas dependências identificadas, se houver.
-        *   Solicitação para, se possível, realizar uma estimativa inicial de esforço para cada tarefa.
+        *   Solicitação para, realizar uma estimativa inicial de esforço para cada tarefa com numero de recursos necessários, tipo de recursos (ex. desenvolvedor pleno, desenvolvedor junior, arquiteto, etc.) e número de horas necessárias.
         *   Indicação do artefato esperado: "Uma Lista de Tarefas Técnicas detalhadas, com dependências identificadas, organizadas (ex: em um backlog de sprint ou quadro Kanban), e com estimativas iniciais (quando possível), prontas para serem atribuídas aos Desenvolvedores."
+   *  **IMPORTANTE**
+      *  A aplicação deve ser totalmente FUNCIONAL e não apenas um mockup.
    *   **Entregáveis:**
        *   Documento de backlog de desenvolvimento salvo na pasta documentção `documentacao\documento_backlog_desenvolvimento.md`
 
@@ -167,6 +171,7 @@ Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as se
         *   Indicação do artefato esperado: "O código-fonte da funcionalidade/componente implementado, com testes unitários passando, devidamente comentado (quando necessário), e pronto para ser submetido a um Pull Request/Merge Request para revisão e integração. Após aprovação e merge, notifique o QA Analyst."
    *   **Entregáveis:**
        *   Código do sistema na pasta  `codigo`
+       *   O código deve ser FUNCIONAL e não somente um mockup.
        *   Criar um arquivo start.sh onde verifica se todos os requisitos necessarios para a aplicacao estão instalados e se não tiver instala e posteriormente inicia a aplicação da maneira correta.
        *   Criar um arquivo stop.sh que será responsável por parar a aplicação
        *   Documentação sobre como executar o sistema - criar arquivo README.MD como instruções detalhadas.
