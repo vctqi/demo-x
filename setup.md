@@ -194,6 +194,18 @@ A saída deve ser o conteúdo para 7 arquivos Markdown separados. Cada arquivo c
 
 Execute os prompts de forma sequencial:
 
+Ao inicio de CADA ETAPA DO PROCESSO, crie ou atualize o  arquivo `logs\worklog.md` onde você deve atualizar com as seguintes informações:
+
+- YYYY-MM-DD-HH-MM - Iniciando atividade [descrever a atividades iniciada]
+  - Descrever as atividades principais a serem executadas
+
+Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as seguintes informações:
+
+- YYYY-MM-DD-HH-MM - Finalizando atividade [descrever a atividades finalizada]
+  - Descrever as atividades principais que foram executadas
+  - Descrever quaisquer pendências que não puderam ser resolvidas e o motivo
+
+
 1) `prompt\step-1_prompt_po.md`
 2) `prompt\step-2_prompt_sa.md`
 3) `prompt\step-3_prompt_tl.md`
