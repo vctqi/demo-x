@@ -16,7 +16,61 @@ flowchart LR
         Escrita dos Casos de Teste"])        
 ```
 ---
-
+**02 - Ciclo Escrita de Requisitos**
+```mermaid
+flowchart LR
+    A(["00-Prompt Setup"]) --> B(["01-Prompt Product Manager (PO)
+        Escrita Requisitos"])    
+```
+---
+**03 - Ciclo Escrita de Requisitos de Arquitetura**
+```mermaid
+flowchart LR
+    A(["00-Prompt Setup"]) --> B(["01-Prompt Product Manager (PO)
+        Escrita Requisitos"]) 
+    B --> C(["02-Prompt Solutions Architect (SA)
+        Escrita Arquitetura Técnica"])          
+```
+---
+**04 - Ciclo Escrita de Backlog**
+```mermaid
+flowchart LR
+    A(["00-Prompt Setup"]) --> B(["01-Prompt Product Manager (PO)
+        Escrita Requisitos"]) 
+    B --> C(["02-Prompt Solutions Architect (SA)
+        Escrita Arquitetura Técnica"])          
+    C --> D(["03-Prompt Team Leader (TTL) 
+        Escrita Backlog Dev"])
+```
+---
+**05 - Ciclo Desenvolvimento (Coding)**
+```mermaid
+flowchart LR
+    A(["00-Prompt Setup"]) --> B(["01-Prompt Product Manager (PO)
+        Escrita Requisitos"]) 
+    B --> C(["02-Prompt Solutions Architect (SA)
+        Escrita Arquitetura Técnica"])          
+    C --> D(["03-Prompt Team Leader (TTL) 
+        Escrita Backlog Dev"])
+    D --> E(["05-Prompt Dev (DEV)
+        Escrita do Código"])        
+```
+---
+**06 - Ciclo Qualidade - Escrita Casos de Testes**
+```mermaid
+flowchart LR
+    A(["00-Prompt Setup"]) --> B(["01-Prompt Product Manager (PO)
+        Escrita Requisitos"]) 
+    B --> C(["02-Prompt Solutions Architect (SA)
+        Escrita Arquitetura Técnica"])          
+    C --> D(["03-Prompt Team Leader (TTL) 
+        Escrita Backlog Dev"])
+    D --> E(["05-Prompt Dev (DEV)
+        Escrita do Código"])
+    E--> F(["06-Prompt QA (QA)
+        Escrita dos Casos de Teste"])                     
+```
+---
 
 **Configuração Inicial**
 
