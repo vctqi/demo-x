@@ -24,11 +24,20 @@ class CompanyRepository {
    */
   async saveCompany(companyData) {
     try {
+      // Verificação adicional antes de salvar
+      if (!companyData.cnpj || companyData.cnpj.length !== 14) {
+        logger.error(`CNPJ inválido ao tentar salvar empresa. CNPJ: ${companyData.cnpj}`);
+        throw new Error('CNPJ inválido ao tentar salvar empresa');
+      }
+      
+      // Log detalhado para depuração
+      logger.info(`Tentando salvar empresa com os dados: ${JSON.stringify(companyData, null, 2)}`);
+      
       const [company, created] = await Company.upsert(companyData);
       logger.info(`Empresa ${companyData.cnpj} ${created ? 'criada' : 'atualizada'}`);
       return company.toJSON();
     } catch (error) {
-      logger.error(`Erro ao salvar empresa ${companyData.cnpj}:`, error);
+      logger.error(`Erro ao salvar empresa ${companyData?.cnpj || 'sem CNPJ'}:`, error);
       throw error;
     }
   }
