@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Script para iniciar a aplicação Analisador de Risco de Cliente PJ via CNPJ
-# Este script verifica dependências, instala o necessário e inicia os serviços
+# Script modificado para iniciar a aplicação sem verificar a versão do Node.js
+# Útil para ambientes onde não é possível atualizar o Node.js
 
 set -e  # Encerrar script em caso de erro
 
@@ -10,24 +10,6 @@ BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_DIR="$BASE_DIR/backend"
 FRONTEND_DIR="$BASE_DIR/frontend"
 LOG_DIR="$BASE_DIR/../logs"
-
-# Limpar processos antigos se existirem
-echo "Verificando e limpando processos antigos..."
-if [ -f "$LOG_DIR/backend.pid" ]; then
-  OLD_BACKEND_PID=$(cat "$LOG_DIR/backend.pid" 2>/dev/null)
-  if [ -n "$OLD_BACKEND_PID" ] && kill -0 $OLD_BACKEND_PID 2>/dev/null; then
-    echo "Encerrando backend antigo (PID: $OLD_BACKEND_PID)..."
-    kill $OLD_BACKEND_PID 2>/dev/null || true
-  fi
-fi
-
-if [ -f "$LOG_DIR/frontend.pid" ]; then
-  OLD_FRONTEND_PID=$(cat "$LOG_DIR/frontend.pid" 2>/dev/null)
-  if [ -n "$OLD_FRONTEND_PID" ] && kill -0 $OLD_FRONTEND_PID 2>/dev/null; then
-    echo "Encerrando frontend antigo (PID: $OLD_FRONTEND_PID)..."
-    kill $OLD_FRONTEND_PID 2>/dev/null || true
-  fi
-fi
 
 # Função para log
 log() {
@@ -39,30 +21,24 @@ log() {
 mkdir -p "$LOG_DIR"
 touch "$LOG_DIR/start_script.log"
 
-log "Iniciando script de inicialização da aplicação"
+log "Iniciando script de inicialização da aplicação (versão modificada)"
 
-# Verificar se node está instalado
-if ! command -v node &> /dev/null; then
-  log "Node.js não encontrado. Instalando..."
-  curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-  sudo apt-get install -y nodejs
-  log "Node.js instalado com sucesso: $(node -v)"
+# Limpar processos antigos se existirem
+log "Verificando e limpando processos antigos..."
+if [ -f "$LOG_DIR/backend.pid" ]; then
+  OLD_BACKEND_PID=$(cat "$LOG_DIR/backend.pid" 2>/dev/null)
+  if [ -n "$OLD_BACKEND_PID" ] && kill -0 $OLD_BACKEND_PID 2>/dev/null; then
+    log "Encerrando backend antigo (PID: $OLD_BACKEND_PID)..."
+    kill $OLD_BACKEND_PID 2>/dev/null || true
+  fi
 fi
 
-# Verificar versão do Node
-NODE_VERSION=$(node -v | cut -d 'v' -f 2 | cut -d '.' -f 1)
-if [ "$NODE_VERSION" -lt 18 ]; then
-  log "Versão do Node.js inferior a 18. Atualizando..."
-  curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-  sudo apt-get install -y nodejs
-  log "Node.js atualizado com sucesso: $(node -v)"
-fi
-
-# Verificar se npm está instalado
-if ! command -v npm &> /dev/null; then
-  log "NPM não encontrado. Instalando..."
-  sudo apt-get install -y npm
-  log "NPM instalado com sucesso: $(npm -v)"
+if [ -f "$LOG_DIR/frontend.pid" ]; then
+  OLD_FRONTEND_PID=$(cat "$LOG_DIR/frontend.pid" 2>/dev/null)
+  if [ -n "$OLD_FRONTEND_PID" ] && kill -0 $OLD_FRONTEND_PID 2>/dev/null; then
+    log "Encerrando frontend antigo (PID: $OLD_FRONTEND_PID)..."
+    kill $OLD_FRONTEND_PID 2>/dev/null || true
+  fi
 fi
 
 # Verificar dependências do backend
@@ -97,10 +73,19 @@ else
   log "Dependências do frontend já instaladas"
 fi
 
+# Limpar portas utilizadas anteriormente (opcional)
+log "Verificando portas ocupadas..."
+BACKEND_PORT=3001
+FRONTEND_PORT=3000
+
+# No Linux, você pode usar o comando a seguir:
+# fuser -k ${BACKEND_PORT}/tcp 2>/dev/null || true
+# fuser -k ${FRONTEND_PORT}/tcp 2>/dev/null || true
+
 # Iniciar backend em background
 log "Iniciando servidor backend..."
 cd "$BACKEND_DIR" || { log "Diretório backend não encontrado"; exit 1; }
-nohup npm start > "$LOG_DIR/backend.log" 2>&1 &
+NODE_ENV=development nohup npm start > "$LOG_DIR/backend.log" 2>&1 &
 BACKEND_PID=$!
 echo $BACKEND_PID > "$LOG_DIR/backend.pid"
 log "Servidor backend iniciado com PID: $BACKEND_PID"
@@ -112,7 +97,7 @@ sleep 5
 # Iniciar frontend em background
 log "Iniciando servidor frontend..."
 cd "$FRONTEND_DIR" || { log "Diretório frontend não encontrado"; exit 1; }
-PORT=3000 nohup npm start > "$LOG_DIR/frontend.log" 2>&1 &
+BROWSER=none PORT=3000 nohup npm start > "$LOG_DIR/frontend.log" 2>&1 &
 FRONTEND_PID=$!
 echo $FRONTEND_PID > "$LOG_DIR/frontend.pid"
 log "Servidor frontend iniciado com PID: $FRONTEND_PID"

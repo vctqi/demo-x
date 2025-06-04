@@ -70,18 +70,30 @@ class CnpjApiService {
                               data.estabelecimento.atividade_principal ? 
                               data.estabelecimento.atividade_principal : null;
     
+    // Extrair o código CNAE e a descrição corretamente
+    const codigoCnae = atividadePrincipal ? atividadePrincipal.id : '';
+    const descricaoCnae = atividadePrincipal ? atividadePrincipal.descricao : '';
+    
+    // Verificar a existência de campos obrigatórios e fornecer valores padrão se necessário
+    const cnpjFormatado = data.estabelecimento ? data.estabelecimento.cnpj : '';
+    const situacaoCadastral = data.estabelecimento ? data.estabelecimento.situacao_cadastral : 'Desconhecida';
+    const dataAberturaFormatada = data.estabelecimento ? data.estabelecimento.data_inicio_atividade : '2000-01-01';
+    
+    // Log para depuração
+    logger.debug(`CNAE extraído: ${codigoCnae}, Descrição: ${descricaoCnae}`, { context: 'CnpjApiService' });
+    
     // Formatar os dados para o modelo interno
     return {
-      cnpj: data.estabelecimento ? data.estabelecimento.cnpj : '',
+      cnpj: cnpjFormatado,
       razaoSocial: data.razao_social,
       nomeFantasia: data.estabelecimento && data.estabelecimento.nome_fantasia ? data.estabelecimento.nome_fantasia : '',
-      situacao: data.estabelecimento ? data.estabelecimento.situacao_cadastral : '',
-      dataAbertura: data.estabelecimento ? data.estabelecimento.data_inicio_atividade : '',
-      cnae: atividadePrincipal ? atividadePrincipal.codigo : '',
-      descricaoCnae: atividadePrincipal ? atividadePrincipal.descricao : '',
-      porte: data.porte ? data.porte.descricao : '',
-      municipio: data.estabelecimento ? data.estabelecimento.cidade.nome : '',
-      uf: data.estabelecimento ? data.estabelecimento.estado.sigla : ''
+      situacao: situacaoCadastral,
+      dataAbertura: dataAberturaFormatada,
+      cnae: codigoCnae,  // Agora usando o campo 'id' ao invés de 'codigo'
+      descricaoCnae: descricaoCnae,
+      porte: data.porte ? data.porte.descricao : 'Não informado',
+      municipio: data.estabelecimento && data.estabelecimento.cidade ? data.estabelecimento.cidade.nome : '',
+      uf: data.estabelecimento && data.estabelecimento.estado ? data.estabelecimento.estado.sigla : ''
     };
   }
 }

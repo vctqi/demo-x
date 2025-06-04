@@ -1,33 +1,12 @@
 #!/bin/bash
 
-# Script para iniciar a aplicação Analisador de Risco de Cliente PJ via CNPJ
-# Este script verifica dependências, instala o necessário e inicia os serviços
-
-set -e  # Encerrar script em caso de erro
+# Script modificado para iniciar a aplicação sem tentar instalar/atualizar o Node.js
 
 # Definir diretório base
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_DIR="$BASE_DIR/backend"
 FRONTEND_DIR="$BASE_DIR/frontend"
 LOG_DIR="$BASE_DIR/../logs"
-
-# Limpar processos antigos se existirem
-echo "Verificando e limpando processos antigos..."
-if [ -f "$LOG_DIR/backend.pid" ]; then
-  OLD_BACKEND_PID=$(cat "$LOG_DIR/backend.pid" 2>/dev/null)
-  if [ -n "$OLD_BACKEND_PID" ] && kill -0 $OLD_BACKEND_PID 2>/dev/null; then
-    echo "Encerrando backend antigo (PID: $OLD_BACKEND_PID)..."
-    kill $OLD_BACKEND_PID 2>/dev/null || true
-  fi
-fi
-
-if [ -f "$LOG_DIR/frontend.pid" ]; then
-  OLD_FRONTEND_PID=$(cat "$LOG_DIR/frontend.pid" 2>/dev/null)
-  if [ -n "$OLD_FRONTEND_PID" ] && kill -0 $OLD_FRONTEND_PID 2>/dev/null; then
-    echo "Encerrando frontend antigo (PID: $OLD_FRONTEND_PID)..."
-    kill $OLD_FRONTEND_PID 2>/dev/null || true
-  fi
-fi
 
 # Função para log
 log() {
@@ -40,30 +19,6 @@ mkdir -p "$LOG_DIR"
 touch "$LOG_DIR/start_script.log"
 
 log "Iniciando script de inicialização da aplicação"
-
-# Verificar se node está instalado
-if ! command -v node &> /dev/null; then
-  log "Node.js não encontrado. Instalando..."
-  curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-  sudo apt-get install -y nodejs
-  log "Node.js instalado com sucesso: $(node -v)"
-fi
-
-# Verificar versão do Node
-NODE_VERSION=$(node -v | cut -d 'v' -f 2 | cut -d '.' -f 1)
-if [ "$NODE_VERSION" -lt 18 ]; then
-  log "Versão do Node.js inferior a 18. Atualizando..."
-  curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-  sudo apt-get install -y nodejs
-  log "Node.js atualizado com sucesso: $(node -v)"
-fi
-
-# Verificar se npm está instalado
-if ! command -v npm &> /dev/null; then
-  log "NPM não encontrado. Instalando..."
-  sudo apt-get install -y npm
-  log "NPM instalado com sucesso: $(npm -v)"
-fi
 
 # Verificar dependências do backend
 log "Verificando dependências do backend..."

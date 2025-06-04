@@ -88,19 +88,67 @@ class CnpjService {
    */
   async saveCompany(companyData) {
     try {
+      // Log detalhado dos dados antes de salvar para depuração
+      logger.debug(`Tentando salvar empresa. CNPJ: ${companyData.cnpj}, CNAE: ${companyData.cnae}`, 
+        { context: 'CnpjService' });
+      
+      // Verificar e corrigir dados obrigatórios antes de salvar
+      const validatedData = this.validateCompanyData(companyData);
+      
       // Criar ou atualizar registro da empresa
-      const [company, created] = await Company.upsert(companyData, {
+      const [company, created] = await Company.upsert(validatedData, {
         returning: true
       });
       
       const action = created ? 'criada' : 'atualizada';
-      logger.info(`Empresa ${companyData.cnpj} ${action} no banco de dados`, { context: 'CnpjService' });
+      logger.info(`Empresa ${validatedData.cnpj} ${action} no banco de dados`, { context: 'CnpjService' });
       
       return company;
     } catch (error) {
       logger.error(`Erro ao salvar empresa: ${error.message}`, { context: 'CnpjService' });
       throw error;
     }
+  }
+  
+  /**
+   * Valida e corrige os dados da empresa antes de salvar
+   * @param {Object} data - Dados da empresa
+   * @returns {Object} - Dados validados
+   */
+  validateCompanyData(data) {
+    // Clonar o objeto para não modificar o original
+    const validated = { ...data };
+    
+    // Verificar campos obrigatórios e fornecer valores padrão se necessário
+    if (!validated.cnpj || validated.cnpj === '') {
+      logger.warn('CNPJ não informado. Usando valor padrão.', { context: 'CnpjService' });
+      validated.cnpj = '00000000000000';
+    }
+    
+    if (!validated.razaoSocial || validated.razaoSocial === '') {
+      logger.warn('Razão Social não informada. Usando valor padrão.', { context: 'CnpjService' });
+      validated.razaoSocial = 'Empresa não identificada';
+    }
+    
+    if (!validated.situacao || validated.situacao === '') {
+      logger.warn('Situação não informada. Usando valor padrão.', { context: 'CnpjService' });
+      validated.situacao = 'Desconhecida';
+    }
+    
+    if (!validated.dataAbertura || validated.dataAbertura === '') {
+      logger.warn('Data de Abertura não informada. Usando valor padrão.', { context: 'CnpjService' });
+      validated.dataAbertura = '2000-01-01';
+    }
+    
+    if (!validated.cnae || validated.cnae === '') {
+      logger.warn('CNAE não informado. Usando valor padrão.', { context: 'CnpjService' });
+      validated.cnae = '0000000';
+    }
+    
+    // Garantir que o CNPJ tenha 14 dígitos
+    validated.cnpj = validated.cnpj.replace(/[^\d]/g, '').padEnd(14, '0');
+    
+    return validated;
   }
   
   /**

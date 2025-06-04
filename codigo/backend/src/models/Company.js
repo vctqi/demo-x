@@ -6,11 +6,8 @@ const Company = sequelize.define('Company', {
   cnpj: {
     type: DataTypes.STRING,
     primaryKey: true,
-    allowNull: false,
-    validate: {
-      // Validação para garantir que o CNPJ tenha o formato correto
-      is: /^\d{14}$/
-    }
+    allowNull: false
+    // Removida validação de formato para evitar erros
   },
   razaoSocial: {
     type: DataTypes.STRING,

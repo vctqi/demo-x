@@ -17,6 +17,15 @@ class CnpjController {
       const { cnpj } = req.params;
       const cnpjLimpo = cnpj.replace(/[^\d]/g, '');
       
+      // Validar formato do CNPJ antes de continuar
+      if (!cnpjValidator.validate(cnpjLimpo)) {
+        logger.warn(`CNPJ inválido fornecido: ${cnpjLimpo}`, { context: 'CnpjController' });
+        return res.status(400).json({
+          status: 'error',
+          message: 'O CNPJ fornecido é inválido. Verifique os dígitos e tente novamente.'
+        });
+      }
+      
       logger.info(`Recebida requisição para processar CNPJ: ${cnpjLimpo}`, { context: 'CnpjController' });
       
       // Processar o CNPJ
@@ -26,7 +35,9 @@ class CnpjController {
       if (result.notFound) {
         return res.status(404).json({
           status: 'error',
-          message: 'CNPJ não encontrado na base de dados.'
+          message: 'CNPJ não encontrado na base de dados.',
+          cnpj: cnpjLimpo,
+          cnpjFormatado: cnpjValidator.format(cnpjLimpo)
         });
       }
       
@@ -35,15 +46,50 @@ class CnpjController {
         result.company.cnpjFormatado = cnpjValidator.format(result.company.cnpj);
       }
       
+      // Adicionar timestamp para caching
+      const timestamp = new Date().toISOString();
+      
       // Retornar o resultado
       res.status(200).json({
         status: 'success',
+        timestamp,
         data: result
       });
     } catch (error) {
       logger.error(`Erro ao processar CNPJ: ${error.message}`, { context: 'CnpjController' });
-      next(error);
+      
+      // Fornecer mensagem de erro mais amigável ao usuário
+      const userMessage = this.getUserFriendlyErrorMessage(error);
+      
+      res.status(500).json({
+        status: 'error',
+        message: userMessage,
+        error: process.env.NODE_ENV === 'production' ? undefined : error.message
+      });
     }
+  }
+  
+  /**
+   * Traduz erros técnicos para mensagens amigáveis ao usuário
+   * @param {Error} error - Objeto de erro
+   * @returns {string} - Mensagem amigável
+   */
+  getUserFriendlyErrorMessage(error) {
+    const errorMessage = error.message.toLowerCase();
+    
+    if (errorMessage.includes('validation error')) {
+      return 'Erro de validação dos dados. Por favor, tente novamente.';
+    }
+    
+    if (errorMessage.includes('timeout')) {
+      return 'A consulta à API externa demorou muito para responder. Por favor, tente novamente.';
+    }
+    
+    if (errorMessage.includes('network error') || errorMessage.includes('econnrefused')) {
+      return 'Erro de conexão com a API externa. Por favor, verifique sua conexão e tente novamente.';
+    }
+    
+    return 'Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente mais tarde.';
   }
   
   /**

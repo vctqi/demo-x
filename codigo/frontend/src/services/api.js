@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // URL base da API (configurável via variável de ambiente)
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3002/api';
 
 // Criar instância do axios com configurações padrão
 const api = axios.create({
@@ -26,19 +26,53 @@ const apiService = {
       // Remover caracteres não numéricos
       const cnpjLimpo = cnpj.replace(/[^\d]/g, '');
       
-      const response = await api.get(`/cnpj/${cnpjLimpo}`);
-      return response.data;
+      // Adicionar retentativas para falhas de rede
+      let retries = 2;
+      let lastError = null;
+      
+      while (retries >= 0) {
+        try {
+          const response = await api.get(`/cnpj/${cnpjLimpo}`);
+          return response.data;
+        } catch (err) {
+          // Salvar o erro para usar se todas as tentativas falharem
+          lastError = err;
+          
+          // Se for erro de rede ou timeout, tenta novamente
+          if (!err.response && retries > 0) {
+            retries--;
+            // Espera 1 segundo antes de tentar novamente
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            continue;
+          }
+          
+          // Para outros erros ou última tentativa, propaga o erro
+          throw err;
+        }
+      }
+      
+      // Se chegou aqui, todas as tentativas falharam
+      throw lastError;
     } catch (error) {
       // Tratar erros da API
       if (error.response) {
-        // Resposta do servidor com erro
-        throw new Error(error.response.data.message || 'Erro ao consultar CNPJ');
+        // Resposta do servidor com erro (formata a mensagem de erro do servidor se possível)
+        const errorMessage = error.response.data && error.response.data.message 
+          ? error.response.data.message 
+          : 'Erro ao consultar CNPJ';
+        
+        // Para erro 404, mensagem específica
+        if (error.response.status === 404) {
+          throw new Error(`CNPJ não encontrado na base de dados. Verifique se o número está correto.`);
+        }
+        
+        throw new Error(errorMessage);
       } else if (error.request) {
         // Sem resposta do servidor
-        throw new Error('Servidor indisponível. Tente novamente mais tarde.');
+        throw new Error('Servidor indisponível. Verifique sua conexão ou tente novamente mais tarde.');
       } else {
         // Erro na configuração da requisição
-        throw new Error('Erro ao processar a requisição.');
+        throw new Error('Erro ao processar a requisição. Tente novamente.');
       }
     }
   },
