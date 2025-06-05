@@ -3,6 +3,7 @@ const logger = require('../config/logger');
 
 class CNPJApiService {
     constructor() {
+        // URL base da API conforme especificado: https://publica.cnpj.ws/cnpj/CNPJ_NUMBER_WITHOUT_SPECIAL_CHARACTERS
         this.baseURL = 'https://publica.cnpj.ws/cnpj/';
         this.maxRetries = 3;
         this.retryDelay = 1000; // 1 segundo
@@ -24,8 +25,8 @@ class CNPJApiService {
         }
 
         logger.info(`Consultando CNPJ: ${cnpjNumeros}`);
-
-        // Tentar consultar a API com retry em caso de falha
+        
+        // Consultar a API real
         return this._consultarComRetry(cnpjNumeros);
     }
 
@@ -44,11 +45,26 @@ class CNPJApiService {
                 
                 // Configuração da requisição
                 const config = {
-                    timeout: 10000, // 10 segundos
+                    timeout: 15000, // Aumentado para 15 segundos
+                    headers: {
+                        'Accept': 'application/json',
+                        'User-Agent': 'Analisador-Risco-CNPJ/1.0'
+                    }
                 };
                 
                 // Fazer a requisição
                 const startTime = Date.now();
+                
+                // Teste de conectividade antes da requisição real
+                if (attempt === 1) {
+                    try {
+                        await axios.head('https://publica.cnpj.ws', { timeout: 5000 });
+                    } catch (headError) {
+                        logger.error(`Falha no teste de conectividade com a API: ${headError.message}`);
+                        // Continua para tentar a requisição real
+                    }
+                }
+                
                 const response = await axios.get(`${this.baseURL}${cnpj}`, config);
                 const duration = Date.now() - startTime;
                 
@@ -64,12 +80,35 @@ class CNPJApiService {
                     if (error.response.status === 404) {
                         logger.warn(`CNPJ ${cnpj} não encontrado (404)`);
                         throw new Error('CNPJ não encontrado');
+                    } else if (error.response.status === 429) {
+                        logger.warn(`Limite de requisições excedido (429). Aguardando antes de tentar novamente.`);
+                        // Tenta novamente após um tempo maior
+                        await new Promise(resolve => setTimeout(resolve, 5000)); 
                     } else {
                         logger.error(`Erro ao consultar CNPJ ${cnpj}: ${error.response.status} - ${error.response.statusText}`);
+                        
+                        // Para erros 5xx (servidor), tentamos novamente
+                        if (error.response.status >= 500 && error.response.status < 600) {
+                            logger.warn(`Erro do servidor da API (${error.response.status}). Tentando novamente...`);
+                        } else {
+                            // Para outros erros HTTP, lançamos uma exceção mais específica
+                            throw new Error(`Erro na API externa: Status ${error.response.status} - ${error.response.statusText || 'Erro não especificado'}`);
+                        }
                     }
                 } else if (error.request) {
                     // A requisição foi feita mas não houve resposta
                     logger.error(`Sem resposta ao consultar CNPJ ${cnpj}: ${error.message}`);
+                    
+                    // Se for timeout, fornecemos uma mensagem mais clara
+                    if (error.code === 'ECONNABORTED') {
+                        if (attempt === this.maxRetries) {
+                            throw new Error('Timeout ao consultar a API. O servidor está demorando muito para responder.');
+                        }
+                    } else if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
+                        if (attempt === this.maxRetries) {
+                            throw new Error('Não foi possível conectar ao servidor da API. Verifique sua conexão com a internet.');
+                        }
+                    }
                 } else {
                     // Algo aconteceu na configuração da requisição
                     logger.error(`Erro na configuração da requisição: ${error.message}`);
@@ -86,7 +125,13 @@ class CNPJApiService {
         
         // Se chegou aqui, todas as tentativas falharam
         logger.error(`Todas as ${this.maxRetries} tentativas de consulta do CNPJ ${cnpj} falharam`);
-        throw lastError || new Error('Falha ao consultar CNPJ após várias tentativas');
+        
+        // Criamos uma mensagem de erro mais descritiva
+        const errorMessage = lastError && lastError.message 
+            ? `Falha ao consultar CNPJ após ${this.maxRetries} tentativas: ${lastError.message}`
+            : `Falha ao consultar CNPJ após ${this.maxRetries} tentativas`;
+            
+        throw new Error(errorMessage);
     }
 }
 

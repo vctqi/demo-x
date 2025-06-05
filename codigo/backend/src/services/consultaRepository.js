@@ -49,11 +49,12 @@ class ConsultaRepository {
             const dataLimite = moment().subtract(horasCache, 'hours').toDate();
             
             // Buscar consulta
+            const { Op } = require('sequelize');
             const consulta = await Consulta.findOne({
                 where: {
                     cnpj: cnpjNumeros,
                     data_consulta: {
-                        [Consulta.sequelize.Op.gte]: dataLimite
+                        [Op.gte]: dataLimite
                     }
                 },
                 order: [['data_consulta', 'DESC']]

@@ -127,13 +127,20 @@ check_requirements() {
     NODE_INSTALLED=$?
     
     if [ $NODE_INSTALLED -eq 0 ]; then
+        # Tentar usar Node.js 16 via NVM se disponível
+        export NVM_DIR="$HOME/.nvm"
+        if [ -s "$NVM_DIR/nvm.sh" ]; then
+            . "$NVM_DIR/nvm.sh"
+            nvm use 16 > /dev/null 2>&1
+            log "INFO" "Tentando usar Node.js 16 via NVM"
+        fi
+        
         NODE_VERSION=$(node --version | cut -d 'v' -f 2)
         NODE_MAJOR=$(echo $NODE_VERSION | cut -d '.' -f 1)
         
         if [ $NODE_MAJOR -lt 16 ]; then
             log "WARNING" "Esta aplicação requer Node.js v16.0.0 ou superior. Versão encontrada: $NODE_VERSION"
-            log "INFO" "Visite https://nodejs.org para atualizar"
-            return 1
+            log "INFO" "Tentaremos usar NVM para alternar para Node.js 16 durante a execução"
         else
             log "SUCCESS" "Node.js v$NODE_VERSION é compatível"
         fi
@@ -418,6 +425,11 @@ EOF
     
     # Iniciar backend em modo de desenvolvimento com nodemon, se disponível
     cd "$BACKEND_DIR"
+    # Carregar NVM e usar Node.js 16
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm use 16 > /dev/null 2>&1 || echo "Falha ao usar Node.js 16. Tentando com node disponível."
+    
     if [ "$DEV_MODE" = true ] && command -v npx &> /dev/null; then
         npx nodemon src/index.js > "$LOGS_DIR/backend.log" 2>&1 &
     else
@@ -696,6 +708,11 @@ EOF
     
     # Iniciar frontend
     cd "$FRONTEND_DIR"
+    # Carregar NVM e usar Node.js 16
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm use 16 > /dev/null 2>&1 || echo "Falha ao usar Node.js 16. Tentando com node disponível."
+    
     BROWSER=none npm start > "$LOGS_DIR/frontend.log" 2>&1 &
     
     FRONTEND_PID=$!
