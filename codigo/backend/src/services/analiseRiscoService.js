@@ -93,10 +93,17 @@ class AnaliseRiscoService {
      */
     _calcularTempoOperacao(dadosEmpresa) {
         // Verificar se há data de início de atividade
-        let dataAbertura = dadosEmpresa.inicio_atividade || dadosEmpresa.data_abertura;
+        let dataAbertura = null;
+        if (dadosEmpresa.estabelecimento && dadosEmpresa.estabelecimento.data_inicio_atividade) {
+            dataAbertura = dadosEmpresa.estabelecimento.data_inicio_atividade;
+        } else if (dadosEmpresa.inicio_atividade) { // Fallback for older/different structures if any
+            dataAbertura = dadosEmpresa.inicio_atividade;
+        } else if (dadosEmpresa.data_abertura) { // Another fallback
+            dataAbertura = dadosEmpresa.data_abertura;
+        }
         
         if (!dataAbertura) {
-            logger.warn('Data de abertura não encontrada nos dados da empresa');
+            logger.warn('Data de abertura não encontrada nos dados da empresa. Verificados: dadosEmpresa.estabelecimento.data_inicio_atividade, dadosEmpresa.inicio_atividade, dadosEmpresa.data_abertura');
             return -1;
         }
         

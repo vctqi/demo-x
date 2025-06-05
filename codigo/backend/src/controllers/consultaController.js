@@ -34,7 +34,7 @@ class ConsultaController {
                 return res.json({
                     cnpj: this._formatarCNPJ(cnpjNumeros),
                     razao_social: consultaCache.dados_empresa.razao_social,
-                    data_abertura: consultaCache.dados_empresa.inicio_atividade || consultaCache.dados_empresa.data_abertura,
+                    data_abertura: consultaCache.dados_empresa.estabelecimento?.data_inicio_atividade || consultaCache.dados_empresa.inicio_atividade || consultaCache.dados_empresa.data_abertura,
                     situacao_cadastral: this._obterSituacaoCadastral(consultaCache.dados_empresa),
                     cnae_principal: this._obterCNAEPrincipal(consultaCache.dados_empresa),
                     porte: this._obterPorte(consultaCache.dados_empresa),
@@ -67,7 +67,7 @@ class ConsultaController {
             return res.json({
                 cnpj: this._formatarCNPJ(cnpjNumeros),
                 razao_social: dadosEmpresa.razao_social,
-                data_abertura: dadosEmpresa.inicio_atividade || dadosEmpresa.data_abertura,
+                data_abertura: dadosEmpresa.estabelecimento?.data_inicio_atividade || dadosEmpresa.inicio_atividade || dadosEmpresa.data_abertura,
                 situacao_cadastral: this._obterSituacaoCadastral(dadosEmpresa),
                 cnae_principal: this._obterCNAEPrincipal(dadosEmpresa),
                 porte: this._obterPorte(dadosEmpresa),
@@ -114,13 +114,26 @@ class ConsultaController {
      * @returns {string} Situação cadastral
      */
     _obterSituacaoCadastral(dadosEmpresa) {
-        if (!dadosEmpresa.situacao_cadastral) return 'Não disponível';
-        
-        if (typeof dadosEmpresa.situacao_cadastral === 'object') {
-            return dadosEmpresa.situacao_cadastral.descricao || 'Não disponível';
+        const estabelecimento = dadosEmpresa.estabelecimento || {};
+        const situacaoNoEstabelecimento = estabelecimento.situacao_cadastral;
+        const situacaoNaRaiz = dadosEmpresa.situacao_cadastral;
+
+        let situacaoFinal = 'Não disponível';
+
+        if (situacaoNoEstabelecimento) {
+            if (typeof situacaoNoEstabelecimento === 'object' && situacaoNoEstabelecimento.descricao) {
+                situacaoFinal = situacaoNoEstabelecimento.descricao;
+            } else if (typeof situacaoNoEstabelecimento === 'string') {
+                situacaoFinal = situacaoNoEstabelecimento;
+            }
+        } else if (situacaoNaRaiz) {
+            if (typeof situacaoNaRaiz === 'object' && situacaoNaRaiz.descricao) {
+                situacaoFinal = situacaoNaRaiz.descricao;
+            } else if (typeof situacaoNaRaiz === 'string') {
+                situacaoFinal = situacaoNaRaiz;
+            }
         }
-        
-        return dadosEmpresa.situacao_cadastral;
+        return situacaoFinal;
     }
     
     /**
@@ -130,20 +143,34 @@ class ConsultaController {
      * @returns {string} CNAE principal
      */
     _obterCNAEPrincipal(dadosEmpresa) {
-        if (!dadosEmpresa.atividade_principal) return 'Não disponível';
-        
-        if (typeof dadosEmpresa.atividade_principal === 'object') {
-            const { codigo, descricao } = dadosEmpresa.atividade_principal;
-            if (codigo && descricao) {
-                return `${codigo} - ${descricao}`;
-            } else if (codigo) {
-                return codigo;
-            } else if (descricao) {
-                return descricao;
+        const estabelecimento = dadosEmpresa.estabelecimento || {};
+        const atividadeNoEstabelecimento = estabelecimento.atividade_principal;
+        const atividadeNaRaiz = dadosEmpresa.atividade_principal;
+
+        let cnaeFinal = 'Não disponível';
+        let atividadeConsiderada = null;
+
+        if (atividadeNoEstabelecimento) {
+            atividadeConsiderada = atividadeNoEstabelecimento;
+        } else if (atividadeNaRaiz) {
+            atividadeConsiderada = atividadeNaRaiz;
+        }
+
+        if (atividadeConsiderada) {
+            if (typeof atividadeConsiderada === 'object') {
+                const { codigo, descricao } = atividadeConsiderada;
+                if (codigo && descricao) {
+                    cnaeFinal = `${codigo} - ${descricao}`;
+                } else if (codigo) {
+                    cnaeFinal = codigo;
+                } else if (descricao) {
+                    cnaeFinal = descricao;
+                }
+            } else if (typeof atividadeConsiderada === 'string') {
+                cnaeFinal = atividadeConsiderada;
             }
         }
-        
-        return dadosEmpresa.atividade_principal;
+        return cnaeFinal;
     }
     
     /**
@@ -169,9 +196,15 @@ class ConsultaController {
      * @returns {string} Município
      */
     _obterMunicipio(dadosEmpresa) {
-        if (!dadosEmpresa.endereco) return 'Não disponível';
+        const estabelecimento = dadosEmpresa.estabelecimento || {};
         
-        if (dadosEmpresa.endereco.municipio) {
+        // Prioritize data from estabelecimento.cidade.nome
+        if (estabelecimento.cidade && estabelecimento.cidade.nome) {
+            return estabelecimento.cidade.nome;
+        }
+        
+        // Fallback to old endereco structure
+        if (dadosEmpresa.endereco && dadosEmpresa.endereco.municipio) {
             if (typeof dadosEmpresa.endereco.municipio === 'object') {
                 return dadosEmpresa.endereco.municipio.descricao || 'Não disponível';
             }
@@ -188,9 +221,19 @@ class ConsultaController {
      * @returns {string} UF
      */
     _obterUF(dadosEmpresa) {
-        if (!dadosEmpresa.endereco) return 'Não disponível';
+        const estabelecimento = dadosEmpresa.estabelecimento || {};
+
+        // Prioritize data from estabelecimento.estado.sigla
+        if (estabelecimento.estado && estabelecimento.estado.sigla) {
+            return estabelecimento.estado.sigla;
+        }
+
+        // Fallback to old endereco structure
+        if (dadosEmpresa.endereco && dadosEmpresa.endereco.uf) {
+            return dadosEmpresa.endereco.uf;
+        }
         
-        return dadosEmpresa.endereco.uf || 'Não disponível';
+        return 'Não disponível';
     }
 }
 

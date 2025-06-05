@@ -173,11 +173,20 @@ check_requirements() {
     
     # Verificar conectividade com API externa
     if [ $CURL_INSTALLED -eq 0 ]; then
-        log "INFO" "Verificando conectividade com a API de CNPJ..."
-        if curl --output /dev/null --silent --head --fail "https://publica.cnpj.ws/"; then
-            log "SUCCESS" "API de CNPJ está acessível"
+        log "INFO" "Verificando conectividade com a API de CNPJ (https://publica.cnpj.ws/cnpj/)..."
+        # Usamos um CNPJ sabidamente inexistente para testar o endpoint
+        HTTP_STATUS=$(curl --output /dev/null --silent -w "%{http_code}" "https://publica.cnpj.ws/cnpj/00000000000000" -m 10) # Timeout de 10s
+        
+        # Códigos de status que indicam que a API está minimamente responsiva
+        # 200: OK (improvável para CNPJ inexistente, mas incluído por segurança)
+        # 404: Not Found (esperado para CNPJ inexistente, indica que o serviço está no ar)
+        # 400: Bad Request (pode ocorrer se o formato do CNPJ de teste for considerado inválido pela API)
+        # 429: Too Many Requests (indica que a API está no ar, mas limitando)
+        if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 404 ] || [ "$HTTP_STATUS" -eq 400 ] || [ "$HTTP_STATUS" -eq 429 ]; then
+            log "SUCCESS" "API de CNPJ está acessível (recebido status $HTTP_STATUS para CNPJ de teste)"
         else
-            log "WARNING" "Não foi possível acessar a API de CNPJ. Verifique sua conexão com a internet."
+            log "WARNING" "Não foi possível acessar a API de CNPJ de forma esperada (recebido status $HTTP_STATUS para CNPJ de teste)."
+            log "WARNING" "Verifique sua conexão com a internet ou o status da API em https://publica.cnpj.ws/"
             log "INFO" "A aplicação ainda pode ser iniciada, mas a funcionalidade de consulta pode não funcionar."
         fi
     fi
@@ -752,6 +761,32 @@ EOF
 # Função principal
 main() {
     log "INFO" "Iniciando configuração do Analisador de Risco de Cliente PJ via CNPJ..."
+
+    log "INFO" "Tentando parar instâncias anteriores da aplicação (se houver)..."
+    if [ -f "$SCRIPT_DIR/stop.sh" ]; then
+        bash "$SCRIPT_DIR/stop.sh"
+    else
+        log "WARNING" "Script stop.sh não encontrado. Tentando parar processos manualmente..."
+        # Fallback manual stop logic (simplified from stop.sh)
+        if [ -f "$BACKEND_PID_FILE" ]; then
+            BACKEND_PID_TO_KILL=$(cat "$BACKEND_PID_FILE")
+            if ps -p "$BACKEND_PID_TO_KILL" > /dev/null; then
+                kill "$BACKEND_PID_TO_KILL" 2>/dev/null && sleep 1 && kill -9 "$BACKEND_PID_TO_KILL" 2>/dev/null
+            fi
+            rm -f "$BACKEND_PID_FILE"
+        fi
+        if [ -f "$FRONTEND_PID_FILE" ]; then
+            FRONTEND_PID_TO_KILL=$(cat "$FRONTEND_PID_FILE")
+            if ps -p "$FRONTEND_PID_TO_KILL" > /dev/null; then
+                kill "$FRONTEND_PID_TO_KILL" 2>/dev/null && sleep 1 && kill -9 "$FRONTEND_PID_TO_KILL" 2>/dev/null
+            fi
+            rm -f "$FRONTEND_PID_FILE"
+        fi
+        # Add pkill for good measure if stop.sh is missing
+        pkill -f "node.*backend/src/index.js"
+        pkill -f "react-scripts start"
+    fi
+    log "INFO" "Verificação de instâncias anteriores concluída."
     
     # Criar diretórios necessários
     create_directories
