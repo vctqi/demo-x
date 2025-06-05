@@ -71,6 +71,8 @@ Uma ferramenta onde o usuário insere o CNPJ de um cliente e recebe uma análise
     - Alto risco (vermelho)
     - Médio risco (amarelo)
     - Baixo risco (verde)
+- Salvar o resultado no banco de dados para manter um histórico de consultas
+- Caso o CNPJ seja consultado novamente em menos de 24 horas, realizar a consulta na base de dados e não da API e avisar o usuário
 
 ## Critérios Simples para Score (Exemplo)
 
@@ -196,10 +198,10 @@ Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as se
        *   Documentação sobre como executar o sistema - criar arquivo README.MD com instruções **extremamente detalhadas sobre configuração do ambiente, dependências, processo de build, execução da aplicação (incluindo como iniciar e parar), e quaisquer particularidades necessárias para que o time de QA possa configurar e executar a aplicação de forma autônoma para testes**. Atenção para os paths dos arquivos.
 
 **5. Prompt para QA Analyst (QA):**
-   *   **Objetivo do Prompt Gerado:** Orientar o QA Analyst na criação e execução de um plano de testes abrangente para garantir a qualidade do sistema.
+   *   **Objetivo do Prompt Gerado:** Orientar o QA Analyst na criação de um plano de testes abrangente para garantir a qualidade do sistema.
    *   **Instrução Prévia:** "Antes de iniciar, revise cuidadosamente o Documento de Requisitos (fornecido pelo PO), o Documento de Arquitetura Técnica (fornecido pelo SA), o Documento de Backlog de Desenvolvimento (fornecido pelo TL) e o arquivo README.md (fornecido pelo DEV)."
    *   **Conteúdo a ser incluído no Prompt Gerado:**
-        *   Contexto: "Como QA Analyst, sua tarefa é garantir a qualidade do sistema '[Analisador de Risco de Cliente PJ via CNPJ]' através da criação e execução de um plano de testes abrangente."
+        *   Contexto: "Como QA Analyst, sua tarefa é garantir a qualidade do sistema '[Analisador de Risco de Cliente PJ via CNPJ]' através da criação de um plano de testes abrangente."
         *   Inputs Chave:
             *   Documento de Requisitos: Para entender as funcionalidades e os Critérios de Aceitação.
             *   Documento de Arquitetura: Para compreender a estrutura técnica e identificar pontos de integração e potenciais áreas de risco.
@@ -228,9 +230,7 @@ Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as se
                 *   **Testes de Regressão (Conceito):** Embora a execução completa possa ser futura, identifique os principais casos de teste que deveriam compor um conjunto de regressão para garantir que futuras alterações não quebrem funcionalidades existentes."
             *   "Priorize os casos de teste com base no risco e na criticidade das funcionalidades (ex: a correta classificação de risco é mais crítica)."
             *   "Identifique e prepare os dados de teste necessários para a execução dos casos de teste (ex: lista de CNPJs com diferentes perfis para testar todos os cenários de score e situação cadastral)."
-            *   "Execute os testes manuais seguindo os casos de teste criados e registre os resultados de forma precisa no `testes\documento_casos_de_teste.md`."
-            *   "Reporte quaisquer defeitos (bugs) encontrados de forma clara e detalhada para o Team Leader e o Developer. Um bom reporte de bug inclui: título, passos para reproduzir, resultado esperado, resultado obtido, severidade, prioridade e ambiente de teste."
-        *   Indicação do artefato esperado: "Um Documento de Casos de Teste (`testes\documento_casos_de_teste.md`) detalhado e preenchido com os casos de teste planejados. Um relatório de execução de testes (pode ser uma seção dentro do mesmo documento ou um resumo separado) indicando os testes executados, os resultados (passou/falhou), e uma lista dos defeitos encontrados e reportados."
+        *   Indicação do artefato esperado: "Um Documento de Casos de Teste (`testes\documento_casos_de_teste.md`) detalhado e preenchido com os casos de teste planejados.
    *   **Entregáveis:**
        *   Documento de casos de teste salvo na pasta testes `testes\documento_casos_de_teste.md`.
 
