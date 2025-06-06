@@ -190,6 +190,13 @@ Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as se
             *   "**Implementação de Logs:** Implemente logging na aplicação conforme a estratégia definida no Documento de Arquitetura. No mínimo, registre: início e parada da aplicação; requisições feitas à API de CNPJ (CNPJ consultado) e um resumo da resposta (status HTTP, se encontrou); erros significativos. Direcione os logs para o console e/ou para um arquivo `logs/application.log`."
             *   "Prepare o código para revisão por pares."
         *   Indicação do artefato esperado: "O código-fonte da funcionalidade/componente implementado, com testes unitários passando, logging implementado, devidamente comentado (quando necessário), e pronto para ser submetido a um Pull Request/Merge Request para revisão e integração. Após aprovação e merge, notifique o QA Analyst."
+  * **UX**        
+        * Adicionar o logo da Febraban TEch 2025 no menu superior no lado direito 
+	          - Arquivo com o logo aqui - https://noomis-files-hmg.s3.amazonaws.com/content/b40c3ad0-d2a2-11ef-8d45-a52f29b56f56.png
+        * Adicionar o logo da empresa TQI no menu superior no lado esquerdo
+	          - Arquivo com o logo aqui - https://tqi.com.br/wp-content/themes/tqi/assets/img/logo.svg
+        * Estilizar a aplicação para ter as cores do logo da TQI.
+        *  Os arquivos dos logos devem ser baixados para o diretorio da aplicação e não acessados remotamente.
    *   **Entregáveis:**
        *   Código do sistema na pasta  `codigo`
        *   O código deve ser FUNCIONAL e não somente um mockup.
