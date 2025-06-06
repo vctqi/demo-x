@@ -49,18 +49,16 @@ class CnpjController {
         razao_social: dadosCnpj.razao_social,
         situacao_cadastral: dadosCnpj.estabelecimento?.situacao_cadastral,
         data_abertura: dadosCnpj.estabelecimento?.data_inicio_atividade,
-        cnae_principal: dadosCnpj.estabelecimento?.cnae_fiscal_principal?.codigo,
-        descricao_cnae: dadosCnpj.estabelecimento?.cnae_fiscal_principal?.descricao,
+        cnae_principal: dadosCnpj.estabelecimento?.atividade_principal?.id, // Corrected path
+        descricao_cnae: dadosCnpj.estabelecimento?.atividade_principal?.descricao, // Corrected path
         porte_empresa: dadosCnpj.porte?.descricao,
         municipio: dadosCnpj.estabelecimento?.cidade?.nome,
         uf: dadosCnpj.estabelecimento?.estado?.sigla
       };
       
       // Analisar risco
-      const analiseRisco = analiseRiscoService.analisarRisco({
-        cnpj: cnpjNumerico,
-        ...dadosProcessados
-      });
+      // Pass the raw dadosCnpj so analiseRiscoService can use its corrected paths
+      const analiseRisco = analiseRiscoService.analisarRisco(dadosCnpj); 
       
       // Montar resposta
       const resultado = {

@@ -34,9 +34,9 @@ if [ ! -d "./backend" ] || [ ! -d "./frontend" ]; then
 fi
 
 # Criar diretório de logs se não existir
-if [ ! -d "../logs" ]; then
-  log "Criando diretório de logs..."
-  mkdir -p ../logs
+if [ ! -d "logs" ]; then
+  log "Criando diretório de logs em $(pwd)/logs..."
+  mkdir -p logs
 fi
 
 # Verificar se o Node.js está instalado

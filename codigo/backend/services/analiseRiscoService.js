@@ -10,7 +10,8 @@ class AnaliseRiscoService {
    * @returns {Object} - Resultado da análise (score, classificação, critérios aplicados)
    */
   analisarRisco(dadosCnpj) {
-    logger.debug(`Iniciando cálculo de score para CNPJ: ${dadosCnpj.cnpj}`);
+    const cnpjParaLog = dadosCnpj.estabelecimento?.cnpj || dadosCnpj.cnpj_raiz || 'N/A';
+    logger.debug(`Iniciando cálculo de score para CNPJ: ${cnpjParaLog}`);
     
     let score = 0;
     const criteriosAplicados = [];
@@ -61,8 +62,8 @@ class AnaliseRiscoService {
     }
     
     // Critério 3: CNAE
-    const cnae = dadosCnpj.estabelecimento?.cnae_fiscal_principal?.codigo || '';
-    const descricaoCnae = dadosCnpj.estabelecimento?.cnae_fiscal_principal?.descricao || '';
+    const cnae = dadosCnpj.estabelecimento?.atividade_principal?.id || '';
+    const descricaoCnae = dadosCnpj.estabelecimento?.atividade_principal?.descricao || '';
     
     // Lista de CNAEs de alto risco (exemplo)
     const cnaesAltoRisco = [
@@ -110,7 +111,7 @@ class AnaliseRiscoService {
       classificacao = 'Alto Risco';
     }
     
-    logger.info(`Score final para CNPJ: ${dadosCnpj.cnpj}: ${score}, classificação: ${classificacao}`);
+    logger.info(`Score final para CNPJ: ${cnpjParaLog}: ${score}, classificação: ${classificacao}`);
     
     return {
       score,

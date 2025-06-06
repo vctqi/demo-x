@@ -26,7 +26,7 @@ error() {
 }
 
 # Verificar se o arquivo PID existe
-if [ ! -f "../logs/server.pid" ]; then
+if [ ! -f "logs/server.pid" ]; then
   warn "Arquivo PID não encontrado. A aplicação pode não estar em execução."
   
   # Verificar se há processos node em execução
@@ -67,7 +67,7 @@ if [ ! -f "../logs/server.pid" ]; then
 fi
 
 # Obter PID do servidor
-SERVER_PID=$(cat ../logs/server.pid)
+SERVER_PID=$(cat logs/server.pid)
 
 # Verificar se o processo existe
 if ps -p $SERVER_PID > /dev/null; then
@@ -98,7 +98,7 @@ else
 fi
 
 # Remover arquivo PID
-rm -f ../logs/server.pid
+rm -f logs/server.pid
 log "Arquivo PID removido"
 
 log "Aplicação parada com sucesso"
