@@ -1,3 +1,9 @@
+# EXCEÇÕES: versionar logs/** e codigo/*.log
+
+!logs/**
+!codigo/*.log
+
+
 ### Node ###
 # Logs
 logs
