@@ -1,0 +1,155 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f4f8; /* MODIFIED: TQI Light Background */
+  color: #333333; /* ADDED: Default text color */
+}
+
+/* Navbar Logo Styles */
+.navbar-logo-tqi {
+  height: 30px; /* Adjust as needed */
+}
+
+.navbar-logo-febraban {
+  height: 35px; /* Adjust as needed */
+  vertical-align: middle;
+}
+
+/* TQI Navbar Theme */
+.tqi-navbar {
+  background-color: #003366; /* TQI Dark Blue */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.tqi-navbar .navbar-brand,
+.tqi-navbar .nav-link {
+  color: #FFFFFF !important; /* White text for contrast */
+}
+
+.tqi-navbar .navbar-brand:hover,
+.tqi-navbar .nav-link:hover {
+  color: #FF6600 !important; /* TQI Orange for hover */
+}
+
+/* Ensure toggler icon is visible on dark background */
+.tqi-navbar .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1); /* Light border for toggler */
+}
+.tqi-navbar .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); /* White toggler icon */
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 0;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 1rem 0;
+  background-color: #e9eff3; /* MODIFIED: TQI Lighter Accent Background */
+  border-top: 1px solid #dde4eb; /* MODIFIED: Adjusted border color */
+  color: #333333; /* Ensure text is readable */
+}
+
+.footer small {
+  color: #555555; /* Slightly lighter text for footer small text if needed */
+}
+
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  font-weight: 600;
+  background-color: #e9eff3; /* MODIFIED: TQI Lighter Accent Background */
+  color: #003366; /* ADDED: TQI Dark Blue for card header text */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #003366; /* TQI Dark Blue for headings */
+}
+
+/* Links */
+a {
+  color: #FF6600; /* TQI Orange for links */
+}
+a:hover {
+  color: #cc5200; /* Darker TQI Orange for hover */
+}
+
+.badge-risk {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.badge-risk-high {
+  background-color: #dc3545;
+  color: white;
+}
+
+.badge-risk-medium {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.badge-risk-low {
+  background-color: #28a745;
+  color: white;
+}
+
+.cnpj-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.factors-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.factors-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.factors-list .impact-positive {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.factors-list .impact-negative {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.alerts-container {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.company-info-table th {
+  width: 40%;
+  font-weight: 600;
+}
+
+.cnpj-input {
+  letter-spacing: 1px;
+  font-family: monospace;
+}
