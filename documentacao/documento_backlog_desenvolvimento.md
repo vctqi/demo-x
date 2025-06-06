@@ -306,28 +306,76 @@ O desenvolvimento será organizado em 3 sprints:
 
 ## 5. Dependências e Sequenciamento
 
-```
-T01-01 ─────┬──► T01-02 ───────────────────────────┐
-            │                                       │
-            └──► T02-02                             │
-                                                    ▼
-T02-01 ────────► T02-03 ─────────► T03-01 ────► Integração
-                                        │           ▲
-                                        └──► T03-02 │
-                                                    │
-T04-01 ─┬──► T04-02 ───────────────────────────────┤
-        │                                           │
-        ├──► T04-03 ───────────────────────────────┤
-        │                                           │
-        ├──► T04-04 ───────────────────────────────┤
-        │                                           │
-        └──► T04-06 ───────► T04-05 ───────────────┘
+```mermaid
+graph TD
+    subgraph "Épico 1: Consulta de CNPJ e Análise de Risco"
+        T01_01["T01-01: Implementação do Formulário de Consulta"]
+        T01_02["T01-02: Implementação da Validação de CNPJ"]
+        T02_02["T02-02: Desenvolvimento do Indicador de Carregamento"]
+        T02_01["T02-01: Implementação do Adaptador de API CNPJ"]
+        T02_03["T02-03: Implementação de Tratamento de Erros da API"]
+        T03_01["T03-01: Implementação do Módulo de Cálculo de Score"]
+        T03_02["T03-02: Desenvolvimento dos Testes Unitários para o Cálculo de Score"]
+        IntegracaoEpico1["Integração Épico 1"]
 
-T05-01 ────► T05-02 ────► T05-03
-                │
-                └────────► T06-01 ────► T06-02 ────► T06-03
+        T01_01 --> T01_02
+        T01_01 --> T02_02
+        T02_01 --> T02_03
+        T02_03 --> T03_01
+        T03_01 --> T03_02
+        T01_02 --> IntegracaoEpico1
+        T03_01 --> IntegracaoEpico1
+    end
 
-T07-01  T07-02 ────► T07-03
+    subgraph "Épico 2: Visualização de Resultados"
+        T04_01["T04-01: Implementação da Estrutura Base do Dashboard"]
+        T04_02["T04-02: Implementação da Exibição de Dados Cadastrais"]
+        T04_03["T04-03: Implementação da Visualização de Classificação de Risco"]
+        T04_04["T04-04: Implementação da Exibição de Critérios Aplicados"]
+        T04_06["T04-06: Download dos Logos e Integração no Frontend"]
+        T04_05["T04-05: Estilização do Dashboard com as Cores da TQI"]
+        IntegracaoEpico2["Integração Épico 2"]
+
+        T04_01 --> T04_02
+        T04_01 --> T04_03
+        T04_01 --> T04_04
+        T04_01 --> T04_06
+        T04_06 --> T04_05
+        T04_02 --> IntegracaoEpico2
+        T04_03 --> IntegracaoEpico2
+        T04_04 --> IntegracaoEpico2
+        T04_05 --> IntegracaoEpico2
+    end
+    
+    IntegracaoEpico1 --> IntegracaoEpico2
+
+    subgraph "Épico 3: Gerenciamento de Histórico"
+        T05_01["T05-01: Implementação do Modelo de Dados"]
+        T05_02["T05-02: Implementação do Repositório de Consultas"]
+        T05_03["T05-03: Integração do Armazenamento com o Fluxo Principal"]
+        T06_01["T06-01: Implementação do Serviço de Cache"]
+        T06_02["T06-02: Integração do Cache no Controlador"]
+        T06_03["T06-03: Implementação da Visualização de Dados em Cache"]
+
+        T05_01 --> T05_02
+        T05_02 --> T05_03
+        T05_02 --> T06_01
+        T06_01 --> T06_02
+        T06_02 --> T06_03
+    end
+    
+    IntegracaoEpico2 --> T05_03
+
+    subgraph "Tarefas Adicionais"
+        T07_01["T07-01: Implementação de Logging"]
+        T07_02["T07-02: Criação dos Scripts de Automação"]
+        T07_03["T07-03: Criação da Documentação (README.md)"]
+        
+        T07_02 --> T07_03
+    end
+    
+    IntegracaoEpico1 --> T07_01
+    T05_03 --> T07_02
 ```
 
 ## 6. Recursos Necessários

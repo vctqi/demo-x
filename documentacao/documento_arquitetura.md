@@ -27,133 +27,93 @@ O sistema será construído seguindo uma arquitetura cliente-servidor em três c
 
 ### 2.1 Diagrama de Arquitetura (C4 Model - Nível de Contexto)
 
-```
-┌─────────────────────────┐      ┌──────────────────────┐
-│                         │      │                      │
-│      Usuário            │─────▶│  Analisador de Risco │
-│  (Analista de Crédito)  │◀─────│  de Cliente PJ       │
-│                         │      │                      │
-└─────────────────────────┘      └──────────┬───────────┘
-                                            │
-                                            ▼
-                               ┌──────────────────────────┐
-                               │                          │
-                               │   API Pública de CNPJ    │
-                               │   (https://docs.cnpj.ws) │
-                               │                          │
-                               └──────────────────────────┘
+```mermaid
+graph LR
+    Usuario["Usuário (Analista de Crédito)"] --> Analisador["Analisador de Risco de Cliente PJ"]
+    Analisador --> Usuario
+    Analisador --> APICNPJ["API Pública de CNPJ (https://docs.cnpj.ws)"]
 ```
 
 ### 2.2 Diagrama de Arquitetura (C4 Model - Nível de Contêineres)
 
-```
-┌───────────────────────────────────────────────────────────────────────┐
-│                                                                       │
-│                     Analisador de Risco de Cliente PJ                 │
-│                                                                       │
-│  ┌───────────────────┐       ┌───────────────────┐       ┌─────────┐ │
-│  │                   │       │                   │       │         │ │
-│  │ Frontend          │◀─────▶│ Backend           │◀─────▶│ Banco   │ │
-│  │ (HTML5 + JS/React)│       │ (NodeJS)          │       │ de Dados│ │
-│  │                   │       │                   │       │ (SQLite)│ │
-│  └───────────────────┘       └────────┬──────────┘       └─────────┘ │
-│                                        │                              │
-└────────────────────────────────────────┼──────────────────────────────┘
-                                         │
-                                         ▼
-                              ┌────────────────────┐
-                              │                    │
-                              │ API Pública de CNPJ│
-                              │                    │
-                              └────────────────────┘
+```mermaid
+graph TD
+    subgraph Analisador de Risco de Cliente PJ
+        Frontend["Frontend (HTML5 + JS/React)"]
+        Backend["Backend (NodeJS)"]
+        BancoDados["Banco de Dados (SQLite)"]
+        Frontend <--> Backend
+        Backend <--> BancoDados
+    end
+    Backend --> APICNPJ["API Pública de CNPJ"]
 ```
 
 ### 2.3 Diagrama de Arquitetura (C4 Model - Nível de Componentes)
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────┐
-│ Frontend (HTML5 + JS/React)                                                         │
-│                                                                                     │
-│  ┌───────────────┐      ┌───────────────┐      ┌───────────────┐                   │
-│  │               │      │               │      │               │                   │
-│  │ Formulário de │      │ Componente de │      │ Dashboard de  │                   │
-│  │ Consulta CNPJ │      │ Loading       │      │ Resultados    │                   │
-│  │               │      │               │      │               │                   │
-│  └───────┬───────┘      └───────────────┘      └───────┬───────┘                   │
-│          │                                             │                           │
-└──────────┼─────────────────────────────────────────────┼───────────────────────────┘
-           │                                             │
-           ▼                                             ▼
-┌─────────────────────────────────────────────────────────────────────────────────────┐
-│ Backend (NodeJS)                                                                    │
-│                                                                                     │
-│  ┌───────────────┐      ┌───────────────┐      ┌───────────────┐                   │
-│  │               │      │               │      │               │                   │
-│  │ Controlador   │      │ Serviço de    │      │ Módulo de     │                   │
-│  │ de CNPJ       │─────▶│ Análise Risco │─────▶│ Score         │                   │
-│  │               │      │               │      │               │                   │
-│  └───────────────┘      └───────┬───────┘      └───────────────┘                   │
-│                                 │                                                   │
-│  ┌───────────────┐      ┌───────────────┐      ┌───────────────┐                   │
-│  │               │      │               │      │               │                   │
-│  │ Repositório   │◀─────│ Serviço de    │◀─────│ Adaptador     │                   │
-│  │ de Consultas  │      │ Cache         │      │ de API CNPJ   │                   │
-│  │               │      │               │      │               │                   │
-│  └───────┬───────┘      └───────────────┘      └───────┬───────┘                   │
-│          │                                             │                           │
-└──────────┼─────────────────────────────────────────────┼───────────────────────────┘
-           │                                             │
-           ▼                                             ▼
-┌─────────────────┐                            ┌─────────────────┐
-│                 │                            │                 │
-│  Banco de Dados │                            │  API Externa    │
-│  (SQLite)       │                            │  de CNPJ        │
-│                 │                            │                 │
-└─────────────────┘                            └─────────────────┘
+```mermaid
+graph TD
+    subgraph Frontend ["Frontend (HTML5 + JS/React)"]
+        FormCNPJ["Formulário de Consulta CNPJ"]
+        CompLoading["Componente de Loading"]
+        DashResultados["Dashboard de Resultados"]
+    end
+
+    subgraph Backend ["Backend (NodeJS)"]
+        CtrlCNPJ["Controlador de CNPJ"]
+        SvcAnalise["Serviço de Análise Risco"]
+        ModScore["Módulo de Score"]
+        SvcCache["Serviço de Cache"]
+        AdaptAPI["Adaptador de API CNPJ"]
+        RepoConsultas["Repositório de Consultas"]
+
+        CtrlCNPJ --> SvcAnalise
+        SvcAnalise --> ModScore
+        
+        AdaptAPI --> SvcCache
+        SvcCache --> RepoConsultas
+
+        CtrlCNPJ --> SvcCache
+        CtrlCNPJ --> AdaptAPI
+    end
+
+    FormCNPJ --> CtrlCNPJ
+    DashResultados --> CtrlCNPJ
+
+    AdaptAPI --> APIExterna["API Externa de CNPJ"]
+    RepoConsultas --> BD["Banco de Dados (SQLite)"]
 ```
 
 ### 2.4 Diagrama de Fluxo de Dados
 
-```
-┌───────────┐    1. Insere CNPJ    ┌───────────┐
-│           │──────────────────────▶           │
-│  Usuário  │                      │  Frontend │
-│           │◀─────────────────────│           │
-└───────────┘    8. Exibe Resultado└─────┬─────┘
-                                         │
-                                         │ 2. Envia CNPJ
-                                         ▼
-┌───────────────────────────────────────────────────────────┐
-│                                                           │
-│                         Backend                           │
-│                                                           │
-│  ┌─────────────┐   3. Verifica   ┌─────────────────────┐  │
-│  │             │   Cache         │                     │  │
-│  │  Controlador│────────────────▶│  Serviço de Cache   │  │
-│  │             │                 │                     │  │
-│  └──────┬──────┘                 └──────────┬──────────┘  │
-│         │                                   │             │
-│         │ 4. Cache                          │ 5. Não      │
-│         │ Encontrado                        │ Encontrado  │
-│         │                                   │             │
-│         ▼                                   ▼             │
-│  ┌─────────────┐                 ┌─────────────────────┐  │
-│  │             │  7. Calcula     │                     │  │
-│  │  Serviço de │  Score          │  Adaptador API CNPJ │  │
-│  │  Análise    │◀────────────────│                     │  │
-│  │             │                 └──────────┬──────────┘  │
-│  └──────┬──────┘                            │             │
-│         │                                   │             │
-└─────────┼───────────────────────────────────┼─────────────┘
-          │                                   │
-          │ 9. Salva Resultado               │ 6. Consulta API
-          ▼                                   ▼
-┌─────────────┐                    ┌─────────────────────┐
-│             │                    │                     │
-│  Banco de   │                    │   API CNPJ Externa  │
-│  Dados      │                    │                     │
-│             │                    │                     │
-└─────────────┘                    └─────────────────────┘
+```mermaid
+sequenceDiagram
+    participant U as Usuario
+    participant F as Frontend
+    participant C as Backend.Controlador
+    participant SC as Backend.ServicoCache
+    participant AA as Backend.AdaptadorAPICNPJ
+    participant SA as Backend.ServicoAnaliseRisco
+    participant ExtAPI as API CNPJ Externa
+    participant DB as Banco de Dados
+
+    U->>F: 1. Insere CNPJ
+    F->>C: 2. Envia CNPJ
+    C->>SC: 3. Verifica Cache
+    alt Cache Hit
+        SC-->>C: 4. Dados do Cache
+        C->>SA: Processar com dados do cache
+    else Cache Miss
+        SC-->>C: 5. Cache Não Encontrado
+        C->>AA: Consultar API Externa
+        AA->>ExtAPI: 6. Consulta API
+        ExtAPI-->>AA: Dados da Empresa
+        AA-->>C: Dados da Empresa
+        C->>SA: Processar com dados da API
+    end
+    SA->>SA: 7. Calcula Score e Análise
+    C-->>F: Resultado da Análise
+    F-->>U: 8. Exibe Resultado
+    SA->>DB: 9. Salva Resultado e Análise
 ```
 
 ## 3. Escolha de Tecnologias
@@ -357,28 +317,31 @@ O adaptador de API deve tratar adequadamente os seguintes cenários:
 
 ### 6.3 Diagrama do Modelo de Dados
 
-```
-┌────────────────────────┐       ┌────────────────────────┐
-│       consultas        │       │   criterios_aplicados  │
-├────────────────────────┤       ├────────────────────────┤
-│ id (PK)                │       │ id (PK)                │
-│ cnpj                   │       │ consulta_id (FK)       │
-│ data_consulta          │       │ criterio               │
-│ razao_social           │       │ pontuacao              │
-│ situacao_cadastral     │       │                        │
-│ data_abertura          │       │                        │
-│ cnae_principal         │       │                        │
-│ descricao_cnae         │       │                        │
-│ porte_empresa          │       │                        │
-│ municipio              │       │                        │
-│ uf                     │       │                        │
-│ score                  │       │                        │
-│ classificacao_risco    │       │                        │
-│ dados_completos        │       │                        │
-└──────────┬─────────────┘       └──────────┬─────────────┘
-           │                                │
-           │ 1                           n  │
-           └────────────────────────────────┘
+```mermaid
+erDiagram
+    consultas {
+        INTEGER id PK
+        TEXT cnpj
+        DATETIME data_consulta
+        TEXT razao_social
+        TEXT situacao_cadastral
+        DATE data_abertura
+        TEXT cnae_principal
+        TEXT descricao_cnae
+        TEXT porte_empresa
+        TEXT municipio
+        TEXT uf
+        INTEGER score
+        TEXT classificacao_risco
+        TEXT dados_completos
+    }
+    criterios_aplicados {
+        INTEGER id PK
+        INTEGER consulta_id FK
+        TEXT criterio
+        INTEGER pontuacao
+    }
+    consultas ||--o{ criterios_aplicados : "possui"
 ```
 
 ## 7. Estratégia de Logging

@@ -1,0 +1,26 @@
+{"level":"debug","message":"Executing (default): SELECT 1+1 AS result","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"info","message":"Conexão com o banco de dados estabelecida com sucesso.","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): SELECT name FROM sqlite_master WHERE type='table' AND name='companies';","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_LIST(`companies`)","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_INFO(`sqlite_autoindex_companies_1`)","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_INFO(`idx_companies_risk_level`)","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): SELECT name FROM sqlite_master WHERE type='table' AND name='cnaes';","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_LIST(`cnaes`)","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_INFO(`sqlite_autoindex_cnaes_1`)","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_INFO(`idx_cnaes_nivel_risco`)","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"info","message":"Modelos sincronizados com o banco de dados.","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): SELECT count(*) AS `count` FROM `cnaes` AS `CNAE`;","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"info","message":"Servidor rodando na porta 5000","service":"analisador-risco-cnpj","timestamp":"2025-06-05 18:47:19"}
+{"level":"debug","message":"Executing (default): SELECT 1+1 AS result","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"info","message":"Conexão com o banco de dados estabelecida com sucesso.","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"debug","message":"Executing (default): SELECT name FROM sqlite_master WHERE type='table' AND name='companies';","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_LIST(`companies`)","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_INFO(`sqlite_autoindex_companies_1`)","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_INFO(`idx_companies_risk_level`)","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"debug","message":"Executing (default): SELECT name FROM sqlite_master WHERE type='table' AND name='cnaes';","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_LIST(`cnaes`)","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_INFO(`sqlite_autoindex_cnaes_1`)","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"debug","message":"Executing (default): PRAGMA INDEX_INFO(`idx_cnaes_nivel_risco`)","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"info","message":"Modelos sincronizados com o banco de dados.","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"debug","message":"Executing (default): SELECT count(*) AS `count` FROM `cnaes` AS `CNAE`;","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}
+{"level":"info","message":"Servidor rodando na porta 5000","service":"analisador-risco-cnpj","timestamp":"2025-06-06 10:56:51"}

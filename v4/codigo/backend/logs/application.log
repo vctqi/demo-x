@@ -1,0 +1,232 @@
+2025-06-05 15:24:22 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 15:24:22 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 15:24:22 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 15:25:20 [INFO] - GET /api/health iniciado
+2025-06-05 15:25:20 [INFO] - GET /api/health 200 concluído em 9ms
+2025-06-05 15:25:20 [INFO] - GET /api/health iniciado
+2025-06-05 15:25:20 [INFO] - GET /api/health 200 concluído em 2ms
+2025-06-05 15:26:13 [INFO] - GET /api/consulta/34532589000190 iniciado
+2025-06-05 15:26:13 [INFO] - Iniciando consulta de CNPJ: 34532589000190
+2025-06-05 15:26:13 [INFO] - Buscando consulta recente para CNPJ: 34532589000190
+2025-06-05 15:26:13 [ERROR] - Erro ao buscar consulta recente: Cannot read properties of undefined (reading 'gte')
+2025-06-05 15:26:13 [ERROR] - Erro ao processar consulta: Cannot read properties of undefined (reading 'gte')
+2025-06-05 15:26:13 [ERROR] - GET /api/consulta/34532589000190 500 concluído em 20ms
+2025-06-05 15:28:47 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 15:28:47 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 15:28:47 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 15:28:52 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 15:28:52 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 15:29:04 [INFO] - GET /api/health iniciado
+2025-06-05 15:29:04 [INFO] - GET /api/health 200 concluído em 5ms
+2025-06-05 15:29:04 [INFO] - GET /api/health iniciado
+2025-06-05 15:29:04 [INFO] - GET /api/health 200 concluído em 1ms
+2025-06-05 15:29:11 [INFO] - GET /api/consulta/34532589000190 iniciado
+2025-06-05 15:29:11 [INFO] - Iniciando consulta de CNPJ: 34532589000190
+2025-06-05 15:29:12 [INFO] - Buscando consulta recente para CNPJ: 34532589000190
+2025-06-05 15:29:12 [ERROR] - Erro ao buscar consulta recente: Cannot read properties of undefined (reading 'gte')
+2025-06-05 15:29:12 [ERROR] - Erro ao processar consulta: Cannot read properties of undefined (reading 'gte')
+2025-06-05 15:29:12 [ERROR] - GET /api/consulta/34532589000190 500 concluído em 11ms
+2025-06-05 16:26:38 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:26:38 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:26:38 [INFO] - Servidor iniciado na porta 3003
+2025-06-05 16:26:49 [INFO] - GET /api/health iniciado
+2025-06-05 16:26:49 [INFO] - GET /api/health 200 concluído em 4ms
+2025-06-05 16:26:49 [INFO] - GET /api/health iniciado
+2025-06-05 16:26:49 [INFO] - GET /api/health 200 concluído em 2ms
+2025-06-05 16:27:01 [INFO] - GET /api/consulta/64645922000139 iniciado
+2025-06-05 16:27:01 [INFO] - Iniciando consulta de CNPJ: 64645922000139
+2025-06-05 16:27:01 [INFO] - Buscando consulta recente para CNPJ: 64645922000139
+2025-06-05 16:27:01 [INFO] - Nenhuma consulta recente encontrada para CNPJ: 64645922000139
+2025-06-05 16:27:01 [INFO] - Consultando CNPJ: 64645922000139
+2025-06-05 16:27:02 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:27:06 [INFO] - CNPJ 64645922000139 consultado com sucesso em 4381ms
+2025-06-05 16:27:06 [INFO] - Calculando risco para empresa: EUNICE DE ALMEIDA LIMA
+2025-06-05 16:27:06 [WARN] - Data de abertura não encontrada nos dados da empresa
+2025-06-05 16:27:06 [WARN] - CNAE principal não encontrado nos dados da empresa
+2025-06-05 16:27:06 [INFO] - Score calculado: -30, Classificação: Alto
+2025-06-05 16:27:06 [INFO] - Salvando consulta para CNPJ: 64645922000139
+2025-06-05 16:27:06 [INFO] - Consulta salva com sucesso. ID: 5
+2025-06-05 16:27:06 [INFO] - GET /api/consulta/64645922000139 200 concluído em 4422ms
+2025-06-05 16:27:12 [INFO] - GET /api/consulta/64645922000139 iniciado
+2025-06-05 16:27:12 [INFO] - Iniciando consulta de CNPJ: 64645922000139
+2025-06-05 16:27:12 [INFO] - Buscando consulta recente para CNPJ: 64645922000139
+2025-06-05 16:27:12 [INFO] - Consulta recente encontrada. ID: 5, Data: Thu Jun 05 2025 16:27:06 GMT-0300 (Brasilia Standard Time)
+2025-06-05 16:27:12 [INFO] - Retornando dados do cache para CNPJ: 64645922000139
+2025-06-05 16:27:12 [INFO] - GET /api/consulta/64645922000139 200 concluído em 7ms
+2025-06-05 16:27:16 [INFO] - GET /api/consulta/34532589000190 iniciado
+2025-06-05 16:27:16 [INFO] - Iniciando consulta de CNPJ: 34532589000190
+2025-06-05 16:27:16 [INFO] - Buscando consulta recente para CNPJ: 34532589000190
+2025-06-05 16:27:16 [INFO] - Consulta recente encontrada. ID: 2, Data: Thu Jun 05 2025 16:02:24 GMT-0300 (Brasilia Standard Time)
+2025-06-05 16:27:16 [INFO] - Retornando dados do cache para CNPJ: 34532589000190
+2025-06-05 16:27:16 [INFO] - GET /api/consulta/34532589000190 200 concluído em 5ms
+2025-06-05 16:27:57 [INFO] - GET /api/consulta/34532589000190 iniciado
+2025-06-05 16:27:57 [INFO] - Iniciando consulta de CNPJ: 34532589000190
+2025-06-05 16:27:57 [INFO] - Buscando consulta recente para CNPJ: 34532589000190
+2025-06-05 16:27:57 [INFO] - Consulta recente encontrada. ID: 2, Data: Thu Jun 05 2025 16:02:24 GMT-0300 (Brasilia Standard Time)
+2025-06-05 16:27:57 [INFO] - Retornando dados do cache para CNPJ: 34532589000190
+2025-06-05 16:27:57 [INFO] - GET /api/consulta/34532589000190 304 concluído em 10ms
+2025-06-05 16:33:45 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:33:45 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:33:45 [INFO] - Servidor iniciado na porta 3003
+2025-06-05 16:33:56 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:33:56 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:33:56 [INFO] - Servidor iniciado na porta 3003
+2025-06-05 16:34:01 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:34:01 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:34:01 [INFO] - Servidor iniciado na porta 3003
+2025-06-05 16:35:53 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:35:53 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:35:53 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:37:47 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:37:47 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:37:47 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:37:53 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:37:53 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:40:14 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:40:14 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:40:14 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:40:14 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:40:14 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:40:18 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:40:18 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:41:03 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:41:03 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:41:03 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:41:03 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:41:03 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:41:03 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:41:03 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:41:06 [INFO] - GET / iniciado
+2025-06-05 16:41:06 [WARN] - GET / 404 concluído em 9ms
+2025-06-05 16:41:07 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:41:07 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:42:28 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:42:28 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:42:28 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:44:18 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:44:18 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:44:18 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:44:22 [INFO] - GET / iniciado
+2025-06-05 16:44:22 [WARN] - GET / 404 concluído em 15ms
+2025-06-05 16:44:41 [INFO] - GET /api/health iniciado
+2025-06-05 16:44:41 [INFO] - GET /api/health 200 concluído em 4ms
+2025-06-05 16:44:41 [INFO] - GET /api/health iniciado
+2025-06-05 16:44:41 [INFO] - GET /api/health 200 concluído em 2ms
+2025-06-05 16:44:46 [INFO] - GET /api/consulta/11111111111111 iniciado
+2025-06-05 16:44:46 [INFO] - Iniciando consulta de CNPJ: 11111111111111
+2025-06-05 16:44:46 [INFO] - Buscando consulta recente para CNPJ: 11111111111111
+2025-06-05 16:44:46 [INFO] - Consulta recente encontrada. ID: 1, Data: Thu Jun 05 2025 15:39:36 GMT-0300 (Brasilia Standard Time)
+2025-06-05 16:44:46 [INFO] - Retornando dados do cache para CNPJ: 11111111111111
+2025-06-05 16:44:46 [INFO] - GET /api/consulta/11111111111111 200 concluído em 30ms
+2025-06-05 16:44:59 [INFO] - GET /api/consulta/68292143000158 iniciado
+2025-06-05 16:44:59 [INFO] - Iniciando consulta de CNPJ: 68292143000158
+2025-06-05 16:44:59 [INFO] - Buscando consulta recente para CNPJ: 68292143000158
+2025-06-05 16:44:59 [INFO] - Consulta recente encontrada. ID: 4, Data: Thu Jun 05 2025 16:03:28 GMT-0300 (Brasilia Standard Time)
+2025-06-05 16:44:59 [INFO] - Retornando dados do cache para CNPJ: 68292143000158
+2025-06-05 16:44:59 [INFO] - GET /api/consulta/68292143000158 200 concluído em 5ms
+2025-06-05 16:45:55 [INFO] - GET /api/consulta/60991123000163 iniciado
+2025-06-05 16:45:55 [INFO] - Iniciando consulta de CNPJ: 60991123000163
+2025-06-05 16:45:55 [INFO] - Buscando consulta recente para CNPJ: 60991123000163
+2025-06-05 16:45:55 [INFO] - Nenhuma consulta recente encontrada para CNPJ: 60991123000163
+2025-06-05 16:45:55 [INFO] - Consultando CNPJ: 60991123000163
+2025-06-05 16:45:56 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:46:00 [WARN] - CNPJ 60991123000163 não encontrado (404)
+2025-06-05 16:46:00 [ERROR] - Erro ao processar consulta: CNPJ não encontrado
+2025-06-05 16:46:00 [WARN] - GET /api/consulta/60991123000163 404 concluído em 4275ms
+2025-06-05 16:46:22 [INFO] - GET /api/consulta/61153648000192 iniciado
+2025-06-05 16:46:22 [INFO] - Iniciando consulta de CNPJ: 61153648000192
+2025-06-05 16:46:22 [INFO] - Buscando consulta recente para CNPJ: 61153648000192
+2025-06-05 16:46:22 [INFO] - Nenhuma consulta recente encontrada para CNPJ: 61153648000192
+2025-06-05 16:46:22 [INFO] - Consultando CNPJ: 61153648000192
+2025-06-05 16:46:23 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:46:23 [WARN] - Limite de requisições excedido (429). Aguardando antes de tentar novamente.
+2025-06-05 16:46:30 [WARN] - Limite de requisições excedido (429). Aguardando antes de tentar novamente.
+2025-06-05 16:46:38 [WARN] - Limite de requisições excedido (429). Aguardando antes de tentar novamente.
+2025-06-05 16:46:43 [ERROR] - Todas as 3 tentativas de consulta do CNPJ 61153648000192 falharam
+2025-06-05 16:46:43 [ERROR] - Erro ao processar consulta: Falha ao consultar CNPJ após 3 tentativas: Request failed with status code 429
+2025-06-05 16:46:54 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:46:54 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:46:54 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:47:00 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:47:00 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:47:16 [INFO] - GET /api/health iniciado
+2025-06-05 16:47:16 [INFO] - GET /api/health 200 concluído em 14ms
+2025-06-05 16:47:16 [INFO] - GET /api/health iniciado
+2025-06-05 16:47:16 [INFO] - GET /api/health 200 concluído em 4ms
+2025-06-05 16:47:33 [INFO] - GET /api/consulta/60997737000152 iniciado
+2025-06-05 16:47:33 [INFO] - Iniciando consulta de CNPJ: 60997737000152
+2025-06-05 16:47:33 [INFO] - Buscando consulta recente para CNPJ: 60997737000152
+2025-06-05 16:47:33 [INFO] - Nenhuma consulta recente encontrada para CNPJ: 60997737000152
+2025-06-05 16:47:33 [INFO] - Consultando CNPJ: 60997737000152
+2025-06-05 16:47:34 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:47:37 [INFO] - CNPJ 60997737000152 consultado com sucesso em 3434ms
+2025-06-05 16:47:37 [INFO] - Calculando risco para empresa: LIDIA CAMPOS PRODUCOES LTDA
+2025-06-05 16:47:37 [WARN] - CNAE principal não encontrado nos dados da empresa
+2025-06-05 16:47:37 [INFO] - Score calculado: -30, Classificação: Alto
+2025-06-05 16:47:37 [INFO] - Salvando consulta para CNPJ: 60997737000152
+2025-06-05 16:47:37 [INFO] - Consulta salva com sucesso. ID: 6
+2025-06-05 16:47:37 [INFO] - GET /api/consulta/60997737000152 200 concluído em 3499ms
+2025-06-05 16:51:24 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:51:24 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:51:24 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:51:24 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:51:24 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:51:41 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:51:41 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:51:41 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:51:41 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:51:41 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:51:57 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:51:57 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:51:57 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:51:57 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:51:57 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:53:02 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:53:02 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:53:02 [INFO] - Servidor iniciado na porta 3001
+2025-06-05 16:53:02 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:53:02 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:53:12 [INFO] - Conexão com o banco de dados estabelecida com sucesso.
+2025-06-05 16:53:12 [INFO] - Modelos sincronizados com o banco de dados.
+2025-06-05 16:53:51 [INFO] - GET /api/health iniciado
+2025-06-05 16:53:51 [INFO] - GET /api/health 200 concluído em 20ms
+2025-06-05 16:53:51 [INFO] - GET /api/health iniciado
+2025-06-05 16:53:51 [INFO] - GET /api/health 200 concluído em 3ms
+2025-06-05 16:54:04 [INFO] - GET /api/consulta/56918574000106 iniciado
+2025-06-05 16:54:04 [INFO] - Iniciando consulta de CNPJ: 56918574000106
+2025-06-05 16:54:04 [INFO] - Buscando consulta recente para CNPJ: 56918574000106
+2025-06-05 16:54:04 [INFO] - Nenhuma consulta recente encontrada para CNPJ: 56918574000106
+2025-06-05 16:54:04 [INFO] - Consultando CNPJ: 56918574000106
+2025-06-05 16:54:05 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:54:08 [INFO] - CNPJ 56918574000106 consultado com sucesso em 4490ms
+2025-06-05 16:54:08 [INFO] - Calculando risco para empresa: XXAN INCORPORADORA LTDA
+2025-06-05 16:54:08 [WARN] - CNAE principal não encontrado nos dados da empresa
+2025-06-05 16:54:08 [INFO] - Score calculado: -20, Classificação: Alto
+2025-06-05 16:54:08 [INFO] - Salvando consulta para CNPJ: 56918574000106
+2025-06-05 16:54:08 [INFO] - Consulta salva com sucesso. ID: 7
+2025-06-05 16:54:08 [INFO] - GET /api/consulta/56918574000106 200 concluído em 4561ms
+2025-06-05 16:54:36 [INFO] - GET /api/consulta/57243922000147 iniciado
+2025-06-05 16:54:36 [INFO] - Iniciando consulta de CNPJ: 57243922000147
+2025-06-05 16:54:36 [INFO] - Buscando consulta recente para CNPJ: 57243922000147
+2025-06-05 16:54:36 [INFO] - Nenhuma consulta recente encontrada para CNPJ: 57243922000147
+2025-06-05 16:54:36 [INFO] - Consultando CNPJ: 57243922000147
+2025-06-05 16:54:37 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:54:38 [WARN] - Limite de requisições excedido (429). Aguardando antes de tentar novamente.
+2025-06-05 16:54:45 [WARN] - Limite de requisições excedido (429). Aguardando antes de tentar novamente.
+2025-06-05 16:54:52 [WARN] - Limite de requisições excedido (429). Aguardando antes de tentar novamente.
+2025-06-05 16:54:57 [ERROR] - Todas as 3 tentativas de consulta do CNPJ 57243922000147 falharam
+2025-06-05 16:54:57 [ERROR] - Erro ao processar consulta: Falha ao consultar CNPJ após 3 tentativas: Request failed with status code 429
+2025-06-05 16:55:00 [INFO] - GET /api/consulta/57243922000147 iniciado
+2025-06-05 16:55:00 [INFO] - Iniciando consulta de CNPJ: 57243922000147
+2025-06-05 16:55:00 [INFO] - Buscando consulta recente para CNPJ: 57243922000147
+2025-06-05 16:55:00 [INFO] - Nenhuma consulta recente encontrada para CNPJ: 57243922000147
+2025-06-05 16:55:00 [INFO] - Consultando CNPJ: 57243922000147
+2025-06-05 16:55:01 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 429
+2025-06-05 16:55:01 [WARN] - Limite de requisições excedido (429). Aguardando antes de tentar novamente.
+2025-06-05 16:55:12 [INFO] - CNPJ 57243922000147 consultado com sucesso em 1753ms
+2025-06-05 16:55:12 [INFO] - Calculando risco para empresa: 57.243.922 FERNANDO APARECIDO PACHECO PORCELLI
+2025-06-05 16:55:12 [WARN] - CNAE principal não encontrado nos dados da empresa
+2025-06-05 16:55:12 [INFO] - Score calculado: -20, Classificação: Alto
+2025-06-05 16:55:12 [INFO] - Salvando consulta para CNPJ: 57243922000147
+2025-06-05 16:55:12 [INFO] - Consulta salva com sucesso. ID: 8
+2025-06-05 16:55:12 [INFO] - GET /api/consulta/57243922000147 200 concluído em 11897ms

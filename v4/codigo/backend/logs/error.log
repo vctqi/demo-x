@@ -1,0 +1,31 @@
+2025-06-05 15:26:13 [ERROR] - Erro ao buscar consulta recente: Cannot read properties of undefined (reading 'gte')
+2025-06-05 15:26:13 [ERROR] - Erro ao processar consulta: Cannot read properties of undefined (reading 'gte')
+2025-06-05 15:26:13 [ERROR] - GET /api/consulta/34532589000190 500 concluído em 20ms
+2025-06-05 15:28:52 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 15:29:12 [ERROR] - Erro ao buscar consulta recente: Cannot read properties of undefined (reading 'gte')
+2025-06-05 15:29:12 [ERROR] - Erro ao processar consulta: Cannot read properties of undefined (reading 'gte')
+2025-06-05 15:29:12 [ERROR] - GET /api/consulta/34532589000190 500 concluído em 11ms
+2025-06-05 16:27:02 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:37:53 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:40:14 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:40:18 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:41:03 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:41:03 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:41:07 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:45:56 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:46:00 [ERROR] - Erro ao processar consulta: CNPJ não encontrado
+2025-06-05 16:46:23 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:46:43 [ERROR] - Todas as 3 tentativas de consulta do CNPJ 61153648000192 falharam
+2025-06-05 16:46:43 [ERROR] - Erro ao processar consulta: Falha ao consultar CNPJ após 3 tentativas: Request failed with status code 429
+2025-06-05 16:47:00 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:47:34 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:51:24 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:51:41 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:51:57 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:53:02 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:53:12 [ERROR] - Uncaught Exception: listen EADDRINUSE: address already in use :::3001
+2025-06-05 16:54:05 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:54:37 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 404
+2025-06-05 16:54:57 [ERROR] - Todas as 3 tentativas de consulta do CNPJ 57243922000147 falharam
+2025-06-05 16:54:57 [ERROR] - Erro ao processar consulta: Falha ao consultar CNPJ após 3 tentativas: Request failed with status code 429
+2025-06-05 16:55:01 [ERROR] - Falha no teste de conectividade com a API: Request failed with status code 429
