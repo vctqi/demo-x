@@ -218,4 +218,5 @@ Ao finalizar a atividade, atualizar o arquivo `logs\worklog.md` criado com as se
 1) `prompt\step-1_prompt_po.md`
 2) `prompt\step-2_prompt_sa.md`
 3) `prompt\step-3_prompt_tl.md`
-4) `prompt\step-3_prompt_dev.md`
+4) `prompt\step-4_prompt_dev.md`
+5) `prompt\step-5_prompt_qa.md`
